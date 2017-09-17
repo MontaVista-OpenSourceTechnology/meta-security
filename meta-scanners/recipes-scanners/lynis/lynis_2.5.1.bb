@@ -37,3 +37,5 @@ do_install () {
 
 FILES_${PN} += "${sysconfdir}/developer.prf ${sysconfdir}/default.prf"
 FILES_${PN}-doc += "lynis.8 FAQ README CHANGELOG.md CONTRIBUTIONS.md CONTRIBUTORS.md" 
+
+RDEPENDS_${PN} += "procps"
