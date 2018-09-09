@@ -1,6 +1,6 @@
 SUMMARY = "system security services daemon"
 DESCRIPTION = "SSSD is a system security services daemon"
-HOMEPAGE = "https://fedorahosted.org/sssd/"
+HOMEPAGE = "https://pagure.io/SSSD/sssd/"
 SECTION = "base"
 LICENSE = "GPLv3+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
@@ -11,10 +11,12 @@ DEPENDS += "libldb dbus libtalloc libpcre glib-2.0 popt e2fsprogs libtevent"
 SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz\
             file://sssd.conf "
 
-SRC_URI[md5sum] = "38bbb24ea9139508cc1d6e402e253244"
-SRC_URI[sha256sum] = "3fd8fe8e6ee9f50b33eecd1bcccfaa44791f30d4e5f3113ba91457ba5f411f85"
+SRC_URI[md5sum] = "af4288c9d1f9953e3b3b6e0b165a5ece"
+SRC_URI[sha256sum] = "ee5d17a0c663c09819cbab9364085b9e57faeca02406cc30efe14cc0cfc04ec4"
 
-inherit autotools pkgconfig gettext update-rc.d python-dir
+inherit autotools pkgconfig gettext update-rc.d python-dir distro_features_check
+
+REQUIRED_DISTRO_FEATURES = "pam"
 
 CACHED_CONFIGUREVARS = "ac_cv_member_struct_ldap_conncb_lc_arg=no \
     ac_cv_path_NSUPDATE=${bindir} \
@@ -35,9 +37,10 @@ PACKAGECONFIG[cyrpto] = "--with-crypto=libcrypto, , libcrypto"
 PACKAGECONFIG[nscd] = "--with-nscd=${sbindir}, --with-nscd=no "
 PACKAGECONFIG[nl] = "--with-libnl, --with-libnl=no, libnl"
 PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/, --with-systemdunitdir="
-PACKAGECONFIG[systemd] = "--with-systemdconfdir=${systemd_unitdir}/system/, --with-systemdconfdir="
+PACKAGECONFIG[http] = "--with-secrets, --without-secrets, apache2"
+PACKAGECONFIG[curl] = "--with-secrets --with-kcm, --without-secrets --without-kcm, curl"
 
-EXTRA_OECONF += "--disable-config-lib --disable-cifs-idmap-plugin --without-nfsv4-idmapd-plugin --without-ipa-getkeytab"
+EXTRA_OECONF += "--disable-cifs-idmap-plugin --without-nfsv4-idmapd-plugin --without-ipa-getkeytab"
 
 do_configure_prepend() {
     mkdir -p ${AUTOTOOLS_AUXDIR}/build
