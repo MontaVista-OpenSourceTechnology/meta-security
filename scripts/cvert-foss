@@ -1,0 +1,151 @@
+#!/usr/bin/env python3
+#
+# Copyright (c) 2018 by Cisco Systems, Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
+""" Generate CVE report for the given CVE manifest
+"""
+
+import sys
+import textwrap
+import argparse
+import logging
+import logging.config
+import cvert
+
+def report_foss():
+    """Generate CVE report"""
+
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=textwrap.dedent("""
+        Generate CVE report for the given CVE manifest.
+        """),
+        epilog=textwrap.dedent("""
+        @ run examples:
+
+        # Download (update) NVD feeds in "nvdfeed" directory
+        # and prepare the report for the "cve-manifest" file
+        %% %(prog)s --feed-dir nvdfeed --output report-foss.txt cve-manifest
+
+        # Use existed NVD feeds in "nvdfeed" directory
+        # and prepare the report for the "cve-manifest" file
+        %% %(prog)s --offline --feed-dir nvdfeed --output report-foss.txt cve-manifest
+
+        # (faster) Restore CVE dump from "cvedump" (must exist)
+        # and prepare the report for the "cve-manifest" file
+        %% %(prog)s --restore cvedump --output report-foss.txt cve-manifest
+
+        # Restore CVE dump from "cvedump" (must exist)
+        # and prepare the extended report for the "cve-manifest" file
+        %% %(prog)s --restore cvedump --show-description --show-reference --output report-foss.txt cve-manifest
+
+        @ manifest example:
+
+        bash,4.2,CVE-2014-7187
+        python,2.7.35,
+        python,3.5.5,CVE-2017-17522 CVE-2018-1061
+
+        @ report example output:
+
+        . patched | 10.0 | CVE-2014-7187      | bash | 4.2
+        . patched |  7.5 | CVE-2018-1061      | python | 3.5.5
+        . patched |  8.8 | CVE-2017-17522     | python | 3.5.5
+        unpatched | 10.0 | CVE-2014-6271      | bash | 4.2
+        unpatched | 10.0 | CVE-2014-6277      | bash | 4.2
+        unpatched | 10.0 | CVE-2014-6278      | bash | 4.2
+        unpatched | 10.0 | CVE-2014-7169      | bash | 4.2
+        unpatched | 10.0 | CVE-2014-7186      | bash | 4.2
+        unpatched |  4.6 | CVE-2012-3410      | bash | 4.2
+        unpatched |  8.4 | CVE-2016-7543      | bash | 4.2
+        unpatched |  5.0 | CVE-2010-3492      | python | 2.7.35
+        unpatched |  5.3 | CVE-2016-1494      | python | 2.7.35
+        unpatched |  6.5 | CVE-2017-18207     | python | 3.5.5
+        unpatched |  6.5 | CVE-2017-18207     | python | 2.7.35
+        unpatched |  7.1 | CVE-2013-7338      | python | 2.7.35
+        unpatched |  7.5 | CVE-2018-1060      | python | 3.5.5
+        unpatched |  8.8 | CVE-2017-17522     | python | 2.7.35
+        """))
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-f", "--feed-dir", help="feeds directory")
+    group.add_argument("-d", "--restore", help="load CVE data structures from file",
+                       metavar="FILENAME")
+    parser.add_argument("--offline", help="do not update from NVD site",
+                        action="store_true")
+    parser.add_argument("-o", "--output", help="save report to the file")
+    parser.add_argument("--show-description", help='show "Description" in the report',
+                        action="store_true")
+    parser.add_argument("--show-reference", help='show "Reference" in the report',
+                        action="store_true")
+    parser.add_argument("--debug", help="print debug messages",
+                        action="store_true")
+
+    parser.add_argument("cve_manifest", help="file with a list of packages, "
+                        "each line contains three comma separated values: name, "
+                        "version and a space separated list of patched CVEs, "
+                        "e.g.: python,3.5.5,CVE-2017-17522 CVE-2018-1061",
+                        metavar="cve-manifest")
+
+    args = parser.parse_args()
+
+    logging.config.dictConfig(cvert.logconfig(args.debug))
+
+    cve_manifest = {}
+
+    with open(args.cve_manifest, "r") as fil:
+        for lin in fil:
+            lin = lin.rstrip()
+
+            # skip empty lines
+            if not lin:
+                continue
+
+            product, version, patched = lin.split(",", maxsplit=3)
+
+            if product in cve_manifest:
+                cve_manifest[product][version] = patched.split()
+            else:
+                cve_manifest[product] = {
+                    version: patched.split()
+                }
+
+    if args.restore:
+        cve_struct = cvert.load_cve(args.restore)
+    elif args.feed_dir:
+        cve_struct = cvert.update_feeds(args.feed_dir, args.offline)
+
+    if not cve_struct and args.offline:
+        parser.error("No CVEs found. Try to turn off offline mode or use other file to restore.")
+
+    if args.output:
+        output = open(args.output, "w")
+    else:
+        output = sys.stdout
+
+    report = cvert.generate_report(cve_manifest, cve_struct)
+
+    cvert.print_report(report,
+                       show_description=args.show_description,
+                       show_reference=args.show_reference,
+                       output=output)
+
+    if args.output:
+        output.close()
+
+
+if __name__ == "__main__":
+    report_foss()

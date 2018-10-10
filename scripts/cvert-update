@@ -1,0 +1,79 @@
+#!/usr/bin/env python3
+#
+# Copyright (c) 2018 by Cisco Systems, Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
+""" Update NVD feeds and store CVE blob locally
+"""
+
+
+import textwrap
+import argparse
+import logging
+import logging.config
+import cvert
+
+
+def update_cvert():
+    """Update CVE storage"""
+
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=textwrap.dedent("""
+        Update NVD feeds and store CVE blob locally.
+        """),
+        epilog=textwrap.dedent("""
+        examples:
+
+        # Download NVD feeds to  "nvdfeed" directory.
+        # If there are meta files in the directory, they will be updated
+        # and only fresh archives will be downloaded
+        %% %(prog)s nvdfeed
+
+        # Inspect NVD feeds in "nvdfeed" directory
+        # and prepare a CVE dump python blob "cvedump".
+        # Use it later as input for cvert-* scripts (for speeding up)
+        %% %(prog)s --offline --store cvedump nvdfeed
+
+        # Download (update) NVD feeds and prepare the CVE dump
+        %% %(prog)s --store cvedump nvdfeed
+        """))
+
+    parser.add_argument("-d", "--store", help="save CVE data structures in file",
+                        metavar="FILENAME")
+    parser.add_argument("--offline", help="do not update from NVD site",
+                        action="store_true")
+    parser.add_argument("--debug", help="print debug messages",
+                        action="store_true")
+
+    parser.add_argument("feed_dir", help="feeds directory",
+                        metavar="feed-dir")
+
+    args = parser.parse_args()
+
+    logging.config.dictConfig(cvert.logconfig(args.debug))
+
+    cve_struct = cvert.update_feeds(args.feed_dir, args.offline)
+
+    if not cve_struct and args.offline:
+        parser.error("No CVEs found in {0}. Try turn off offline mode.".format(args.feed_dir))
+
+    if args.store:
+        cvert.save_cve(args.store, cve_struct)
+
+
+if __name__ == "__main__":
+    update_cvert()
