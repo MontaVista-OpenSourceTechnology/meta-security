@@ -3,14 +3,20 @@ DESCRIPTION = "Scapy is a powerful interactive packet manipulation program. It i
 SECTION = "security"
 LICENSE = "GPLv2"
 
-LIC_FILES_CHKSUM = "file://bin/scapy;beginline=9;endline=13;md5=1d5249872cc54cd4ca3d3879262d0c69"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+
+SRCREV = "3047580162a9407ef05fe981983cacfa698f1159"
+SRC_URI = "git://github.com/secdev/scapy.git \
+           file://run-ptest"
+
+inherit setuptools3 ptest
 
 S = "${WORKDIR}/git"
 
-SRCREV = "bad14cb1a5aee29f8107fbe8ad008d4645f14da7"
-SRC_URI = "git://github.com/secdev/scapy.git"
-
-inherit ptest
+do_install_append() {
+        mv ${D}${bindir}/scapy ${D}${bindir}/scapy3
+        mv ${D}${bindir}/UTscapy ${D}${bindir}/UTscapy3
+}
 
 do_install_ptest() {
     install -m 0644 ${S}/test/regression.uts ${D}${PTEST_PATH}
@@ -20,3 +26,4 @@ do_install_ptest() {
 RDEPENDS_${PN} = "tcpdump ${PYTHON_PN}-compression ${PYTHON_PN}-cryptography ${PYTHON_PN}-netclient  \
                   ${PYTHON_PN}-netserver ${PYTHON_PN}-pydoc ${PYTHON_PN}-pkgutil ${PYTHON_PN}-shell \
                   ${PYTHON_PN}-threading ${PYTHON_PN}-numbers ${PYTHON_PN}-pycrypto"
+
