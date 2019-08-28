@@ -17,6 +17,14 @@
 # Check that the config file exists
 [ -f /etc/fail2ban/fail2ban.conf ] || exit 0
 
+echo_success() {
+    echo -n "OK"
+}
+
+echo_failure() {
+    echo -n "FAIL"
+}
+
 check_privsep_dir() {                                                              
     # Create the PrivSep empty dir if necessary
     if [ ! -d /var/run/fail2ban ]; then            

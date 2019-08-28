@@ -1,0 +1,550 @@
+From 71af4ecd1abe520a3bbfe46213a1cf464743e631 Mon Sep 17 00:00:00 2001
+From: Armin Kuster <akuster808@gmail.com>
+Date: Wed, 28 Aug 2019 19:12:07 -0700
+Subject: [PATCH] fail2ban: update to work with python 3.7
+
+fixes errors like: AttributeError: 'dict' object has no attribute 'iteritems'
+when using only python 3.7
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+
+Upstream-Status: sumbitted upstream
+
+
+---
+ fail2ban/client/actionreader.py        |  4 ++--
+ fail2ban/client/configparserinc.py     |  4 ++--
+ fail2ban/client/fail2banclient.py      |  2 +-
+ fail2ban/client/fail2banregex.py       |  4 ++--
+ fail2ban/client/filterreader.py        |  2 +-
+ fail2ban/client/jailreader.py          |  2 +-
+ fail2ban/server/action.py              |  6 +++---
+ fail2ban/server/actions.py             | 14 +++++++-------
+ fail2ban/server/banmanager.py          |  4 ++--
+ fail2ban/server/database.py            |  2 +-
+ fail2ban/server/failmanager.py         |  6 +++---
+ fail2ban/server/filter.py              |  2 +-
+ fail2ban/server/filterpyinotify.py     |  4 ++--
+ fail2ban/server/server.py              |  8 ++++----
+ fail2ban/server/strptime.py            |  2 +-
+ fail2ban/server/ticket.py              | 20 ++++++++++----------
+ fail2ban/server/utils.py               |  6 +++---
+ fail2ban/tests/clientreadertestcase.py |  2 +-
+ fail2ban/tests/filtertestcase.py       |  2 +-
+ fail2ban/tests/samplestestcase.py      |  6 +++---
+ fail2ban/tests/utils.py                |  2 +-
+ 21 files changed, 52 insertions(+), 52 deletions(-)
+
+diff --git a/fail2ban/client/actionreader.py b/fail2ban/client/actionreader.py
+index 3ed8204..6c534de 100644
+--- a/fail2ban/client/actionreader.py
++++ b/fail2ban/client/actionreader.py
+@@ -88,11 +88,11 @@ class ActionReader(DefinitionInitConfigReader):
+ 		stream = list()
+ 		stream.append(head + ["addaction", self._name])
+ 		multi = []
+-		for opt, optval in opts.iteritems():
++		for opt, optval in opts.items():
+ 			if opt in self._configOpts and not opt.startswith('known/'):
+ 				multi.append([opt, optval])
+ 		if self._initOpts:
+-			for opt, optval in self._initOpts.iteritems():
++			for opt, optval in self._initOpts.items():
+ 				if opt not in self._configOpts and not opt.startswith('known/'):
+ 					multi.append([opt, optval])
+ 		if len(multi) > 1:
+diff --git a/fail2ban/client/configparserinc.py b/fail2ban/client/configparserinc.py
+index e0f3957..eaa95c8 100644
+--- a/fail2ban/client/configparserinc.py
++++ b/fail2ban/client/configparserinc.py
+@@ -356,7 +356,7 @@ after = 1.conf
+ 					ret += i
+ 					# merge defaults and all sections to self:
+ 					alld.update(cfg.get_defaults())
+-					for n, s in cfg.get_sections().iteritems():
++					for n, s in cfg.get_sections().items():
+ 						# conditional sections
+ 						cond = SafeConfigParserWithIncludes.CONDITIONAL_RE.match(n)
+ 						if cond:
+@@ -399,7 +399,7 @@ after = 1.conf
+ 			sec.update(options)
+ 			return
+ 		sk = {}
+-		for k, v in options.iteritems():
++		for k, v in options.items():
+ 			if not k.startswith(pref) and k != '__name__':
+ 				sk[pref+k] = v
+ 		sec.update(sk)
+diff --git a/fail2ban/client/fail2banclient.py b/fail2ban/client/fail2banclient.py
+index 7c90ca4..a82458e 100755
+--- a/fail2ban/client/fail2banclient.py
++++ b/fail2ban/client/fail2banclient.py
+@@ -444,7 +444,7 @@ class Fail2banClient(Fail2banCmdLine, Thread):
+ 			return False
+ 		finally:
+ 			self._alive = False
+-			for s, sh in _prev_signals.iteritems():
++			for s, sh in _prev_signals.items():
+ 				signal.signal(s, sh)
+ 
+ 
+diff --git a/fail2ban/client/fail2banregex.py b/fail2ban/client/fail2banregex.py
+index 9279174..e7571cb 100644
+--- a/fail2ban/client/fail2banregex.py
++++ b/fail2ban/client/fail2banregex.py
+@@ -233,7 +233,7 @@ class Fail2banRegex(object):
+ 
+ 	def __init__(self, opts):
+ 		# set local protected members from given options:
+-		self.__dict__.update(dict(('_'+o,v) for o,v in opts.__dict__.iteritems()))
++		self.__dict__.update(dict(('_'+o,v) for o,v in opts.__dict__.items()))
+ 		self._maxlines_set = False		  # so we allow to override maxlines in cmdline
+ 		self._datepattern_set = False
+ 		self._journalmatch = None
+@@ -413,7 +413,7 @@ class Fail2banRegex(object):
+ 			output( "Use %11s line : %s" % (regex, shortstr(value)) )
+ 			regex_values = {regextype: [RegexStat(value)]}
+ 
+-		for regextype, regex_values in regex_values.iteritems():
++		for regextype, regex_values in regex_values.items():
+ 			regex = regextype + 'regex'
+ 			setattr(self, "_" + regex, regex_values)
+ 			for regex in regex_values:
+diff --git a/fail2ban/client/filterreader.py b/fail2ban/client/filterreader.py
+index 9edeb2f..3757a6a 100644
+--- a/fail2ban/client/filterreader.py
++++ b/fail2ban/client/filterreader.py
+@@ -57,7 +57,7 @@ class FilterReader(DefinitionInitConfigReader):
+ 		opts = self.getCombined()
+ 		if not len(opts):
+ 			return stream
+-		for opt, value in opts.iteritems():
++		for opt, value in opts.items():
+ 			if opt in ("failregex", "ignoreregex"):
+ 				if value is None: continue
+ 				multi = []
+diff --git a/fail2ban/client/jailreader.py b/fail2ban/client/jailreader.py
+index 85ed941..084c2fe 100644
+--- a/fail2ban/client/jailreader.py
++++ b/fail2ban/client/jailreader.py
+@@ -236,7 +236,7 @@ class JailReader(ConfigReader):
+ 			return stream
+ 		if self.__filter:
+ 			stream.extend(self.__filter.convert())
+-		for opt, value in self.__opts.iteritems():
++		for opt, value in self.__opts.items():
+ 			if opt == "logpath":
+ 				if self.__opts.get('backend', '').startswith("systemd"): continue
+ 				found_files = 0
+diff --git a/fail2ban/server/action.py b/fail2ban/server/action.py
+index a2ec03f..ad0adcc 100644
+--- a/fail2ban/server/action.py
++++ b/fail2ban/server/action.py
+@@ -109,7 +109,7 @@ class CallingMap(MutableMapping, object):
+ 	def _asdict(self, calculated=False, checker=None):
+ 		d = dict(self.data, **self.storage)
+ 		if not calculated:
+-			return dict((n,v) for n,v in d.iteritems() \
++			return dict((n,v) for n,v in d.items() \
+ 				if not callable(v) or n in self.CM_REPR_ITEMS)
+ 		for n,v in d.items():
+ 			if callable(v):
+@@ -513,7 +513,7 @@ class CommandAction(ActionBase):
+ 		family = []
+ 		# collect started families, if started on demand (conditional):
+ 		if self._startOnDemand:
+-			family = [f for (f,v) in self.__started.iteritems() if v]
++			family = [f for (f,v) in self.__started.items() if v]
+ 			# if no started (on demand) actions:
+ 			if not family: return True
+ 		return self._executeOperation('<actionflush>', 'flushing', family=family)
+@@ -527,7 +527,7 @@ class CommandAction(ActionBase):
+ 		family = []
+ 		# collect started families, if started on demand (conditional):
+ 		if self._startOnDemand:
+-			family = [f for (f,v) in self.__started.iteritems() if v]
++			family = [f for (f,v) in self.__started.items() if v]
+ 			# if no started (on demand) actions:
+ 			if not family: return True
+ 		self.__started = {}
+diff --git a/fail2ban/server/actions.py b/fail2ban/server/actions.py
+index e42f663..7d5f4f0 100644
+--- a/fail2ban/server/actions.py
++++ b/fail2ban/server/actions.py
+@@ -154,11 +154,11 @@ class Actions(JailThread, Mapping):
+ 		else:
+ 			if hasattr(self, '_reload_actions'):
+ 				# reload actions after all parameters set via stream:
+-				for name, initOpts in self._reload_actions.iteritems():
++				for name, initOpts in self._reload_actions.items():
+ 					if name in self._actions:
+ 						self._actions[name].reload(**(initOpts if initOpts else {}))
+ 				# remove obsolete actions (untouched by reload process):
+-				delacts = OrderedDict((name, action) for name, action in self._actions.iteritems()
++				delacts = OrderedDict((name, action) for name, action in self._actions.items()
+ 					if name not in self._reload_actions)
+ 				if len(delacts):
+ 					# unban all tickets using remove action only:
+@@ -312,7 +312,7 @@ class Actions(JailThread, Mapping):
+ 			True when the thread exits nicely.
+ 		"""
+ 		cnt = 0
+-		for name, action in self._actions.iteritems():
++		for name, action in self._actions.items():
+ 			try:
+ 				action.start()
+ 			except Exception as e:
+@@ -471,7 +471,7 @@ class Actions(JailThread, Mapping):
+ 					Observers.Main.add('banFound', bTicket, self._jail, btime)
+ 				logSys.notice("[%s] %sBan %s", self._jail.name, ('' if not bTicket.restored else 'Restore '), ip)
+ 				# do actions :
+-				for name, action in self._actions.iteritems():
++				for name, action in self._actions.items():
+ 					try:
+ 						if ticket.restored and getattr(action, 'norestored', False):
+ 							continue
+@@ -513,7 +513,7 @@ class Actions(JailThread, Mapping):
+ 		if not self.__banManager._inBanList(ticket): return
+ 		# do actions :
+ 		aInfo = None
+-		for name, action in self._actions.iteritems():
++		for name, action in self._actions.items():
+ 			try:
+ 				if ticket.restored and getattr(action, 'norestored', False):
+ 					continue
+@@ -562,7 +562,7 @@ class Actions(JailThread, Mapping):
+ 		cnt = 0
+ 		# first we'll execute flush for actions supporting this operation:
+ 		unbactions = {}
+-		for name, action in (actions if actions is not None else self._actions).iteritems():
++		for name, action in (actions if actions is not None else self._actions).items():
+ 			if hasattr(action, 'flush') and action.actionflush:
+ 				logSys.notice("[%s] Flush ticket(s) with %s", self._jail.name, name)
+ 				action.flush()
+@@ -601,7 +601,7 @@ class Actions(JailThread, Mapping):
+ 		aInfo = self.__getActionInfo(ticket)
+ 		if log:
+ 			logSys.notice("[%s] Unban %s", self._jail.name, aInfo["ip"])
+-		for name, action in unbactions.iteritems():
++		for name, action in unbactions.items():
+ 			try:
+ 				if ticket.restored and getattr(action, 'norestored', False):
+ 					continue
+diff --git a/fail2ban/server/banmanager.py b/fail2ban/server/banmanager.py
+index 5770bfd..1383b52 100644
+--- a/fail2ban/server/banmanager.py
++++ b/fail2ban/server/banmanager.py
+@@ -341,7 +341,7 @@ class BanManager:
+ 			# Gets the list of ticket to remove (thereby correct next unban time).
+ 			unBanList = {}
+ 			nextUnbanTime = BanTicket.MAX_TIME
+-			for fid,ticket in self.__banList.iteritems():
++			for fid,ticket in self.__banList.items():
+ 				# current time greater as end of ban - timed out:
+ 				eob = ticket.getEndOfBanTime(self.__banTime)
+ 				if time > eob:
+@@ -361,7 +361,7 @@ class BanManager:
+ 						del self.__banList[fid]
+ 				else:
+ 					# create new dictionary without items to be deleted:
+-					self.__banList = dict((fid,ticket) for fid,ticket in self.__banList.iteritems() \
++					self.__banList = dict((fid,ticket) for fid,ticket in self.__banList.items() \
+ 						if fid not in unBanList)
+ 						
+ 			# return list of tickets:
+diff --git a/fail2ban/server/database.py b/fail2ban/server/database.py
+index 0dd9acb..5b72f57 100644
+--- a/fail2ban/server/database.py
++++ b/fail2ban/server/database.py
+@@ -67,7 +67,7 @@ if sys.version_info >= (3,): # pragma: 2.x no cover
+ else: # pragma: 3.x no cover
+ 	def _normalize(x):
+ 		if isinstance(x, dict):
+-			return dict((_normalize(k), _normalize(v)) for k, v in x.iteritems())
++			return dict((_normalize(k), _normalize(v)) for k, v in x.items())
+ 		elif isinstance(x, (list, set)):
+ 			return [_normalize(element) for element in x]
+ 		elif isinstance(x, unicode):
+diff --git a/fail2ban/server/failmanager.py b/fail2ban/server/failmanager.py
+index 93c028f..9612426 100644
+--- a/fail2ban/server/failmanager.py
++++ b/fail2ban/server/failmanager.py
+@@ -125,7 +125,7 @@ class FailManager:
+ 				# in case of having many active failures, it should be ran only
+ 				# if debug level is "low" enough
+ 				failures_summary = ', '.join(['%s:%d' % (k, v.getRetry())
+-											  for k,v in  self.__failList.iteritems()])
++											  for k,v in  self.__failList.items()])
+ 				logSys.log(logLevel, "Total # of detected failures: %d. Current failures from %d IPs (IP:count): %s"
+ 							 % (self.__failTotal, len(self.__failList), failures_summary))
+ 
+@@ -138,7 +138,7 @@ class FailManager:
+ 	
+ 	def cleanup(self, time):
+ 		with self.__lock:
+-			todelete = [fid for fid,item in self.__failList.iteritems() \
++			todelete = [fid for fid,item in self.__failList.items() \
+ 				if item.getLastTime() + self.__maxTime <= time]
+ 			if len(todelete) == len(self.__failList):
+ 				# remove all:
+@@ -152,7 +152,7 @@ class FailManager:
+ 					del self.__failList[fid]
+ 			else:
+ 				# create new dictionary without items to be deleted:
+-				self.__failList = dict((fid,item) for fid,item in self.__failList.iteritems() \
++				self.__failList = dict((fid,item) for fid,item in self.__failList.items() \
+ 					if item.getLastTime() + self.__maxTime > time)
+ 		self.__bgSvc.service()
+ 	
+diff --git a/fail2ban/server/filter.py b/fail2ban/server/filter.py
+index c2df26e..6c5cb65 100644
+--- a/fail2ban/server/filter.py
++++ b/fail2ban/server/filter.py
+@@ -671,7 +671,7 @@ class Filter(JailThread):
+ 	# 				except:
+ 	# 					pass
+ 	# 	# update not empty values:
+-	# 	mlfidGroups.update(((k,v) for k,v in fail.iteritems() if v))
++	# 	mlfidGroups.update(((k,v) for k,v in fail.items() if v))
+ 
+ 	def _mergeFailure(self, mlfid, fail, failRegex):
+ 		mlfidFail = self.mlfidCache.get(mlfid) if self.__mlfidCache else None
+diff --git a/fail2ban/server/filterpyinotify.py b/fail2ban/server/filterpyinotify.py
+index ca6b253..f685649 100644
+--- a/fail2ban/server/filterpyinotify.py
++++ b/fail2ban/server/filterpyinotify.py
+@@ -168,7 +168,7 @@ class FilterPyinotify(FileFilter):
+ 			return
+ 		found = {}
+ 		minTime = 60
+-		for path, (retardTM, isDir) in self.__pending.iteritems():
++		for path, (retardTM, isDir) in self.__pending.items():
+ 			if ntm - self.__pendingChkTime < retardTM:
+ 				if minTime > retardTM: minTime = retardTM
+ 				continue
+@@ -184,7 +184,7 @@ class FilterPyinotify(FileFilter):
+ 		self.__pendingChkTime = time.time()
+ 		self.__pendingMinTime = minTime
+ 		# process now because we've missed it in monitoring:
+-		for path, isDir in found.iteritems():
++		for path, isDir in found.items():
+ 			self._delPending(path)
+ 			# refresh monitoring of this:
+ 			self._refreshWatcher(path, isDir=isDir)
+diff --git a/fail2ban/server/server.py b/fail2ban/server/server.py
+index 853eb75..f4c2b18 100644
+--- a/fail2ban/server/server.py
++++ b/fail2ban/server/server.py
+@@ -187,7 +187,7 @@ class Server:
+ 
+ 		# Restore default signal handlers:
+ 		if _thread_name() == '_MainThread':
+-			for s, sh in self.__prev_signals.iteritems():
++			for s, sh in self.__prev_signals.items():
+ 				signal.signal(s, sh)
+ 
+ 		# Give observer a small chance to complete its work before exit
+@@ -296,7 +296,7 @@ class Server:
+ 					if "--restart" in opts:
+ 						self.stopAllJail()
+ 				# first set all affected jail(s) to idle and reset filter regex and other lists/dicts:
+-				for jn, jail in self.__jails.iteritems():
++				for jn, jail in self.__jails.items():
+ 					if name == '--all' or jn == name:
+ 						jail.idle = True
+ 						self.__reload_state[jn] = jail
+@@ -307,7 +307,7 @@ class Server:
+ 			# end reload, all affected (or new) jails have already all new parameters (via stream) and (re)started:
+ 			with self.__lock:
+ 				deljails = []
+-				for jn, jail in self.__jails.iteritems():
++				for jn, jail in self.__jails.items():
+ 					# still in reload state:
+ 					if jn in self.__reload_state:
+ 						# remove jails that are not reloaded (untouched, so not in new configuration)
+@@ -753,7 +753,7 @@ class Server:
+ 			return "flushed"
+ 			
+ 	def setThreadOptions(self, value):
+-		for o, v in value.iteritems():
++		for o, v in value.items():
+ 			if o == 'stacksize':
+ 				threading.stack_size(int(v)*1024)
+ 			else: # pragma: no cover
+diff --git a/fail2ban/server/strptime.py b/fail2ban/server/strptime.py
+index 498d284..89df503 100644
+--- a/fail2ban/server/strptime.py
++++ b/fail2ban/server/strptime.py
+@@ -171,7 +171,7 @@ def reGroupDictStrptime(found_dict, msec=False, default_tz=None):
+ 	year = month = day = hour = minute = tzoffset = \
+ 	weekday = julian = week_of_year = None
+ 	second = fraction = 0
+-	for key, val in found_dict.iteritems():
++	for key, val in found_dict.items():
+ 		if val is None: continue
+ 		# Directives not explicitly handled below:
+ 		#   c, x, X
+diff --git a/fail2ban/server/ticket.py b/fail2ban/server/ticket.py
+index 09e19cf..defd7b1 100644
+--- a/fail2ban/server/ticket.py
++++ b/fail2ban/server/ticket.py
+@@ -55,13 +55,13 @@ class Ticket(object):
+ 		self._time = time if time is not None else MyTime.time()
+ 		self._data = {'matches': matches or [], 'failures': 0}
+ 		if data is not None:
+-			for k,v in data.iteritems():
++			for k,v in data.items():
+ 				if v is not None:
+ 					self._data[k] = v
+ 		if ticket:
+ 			# ticket available - copy whole information from ticket:
+ 			self.update(ticket)
+-			#self.__dict__.update(i for i in ticket.__dict__.iteritems() if i[0] in self.__dict__)
++			#self.__dict__.update(i for i in ticket.__dict__.items() if i[0] in self.__dict__)
+ 
+ 	def __str__(self):
+ 		return "%s: ip=%s time=%s bantime=%s bancount=%s #attempts=%d matches=%r" % \
+@@ -180,8 +180,8 @@ class Ticket(object):
+ 		# if overwrite - set data and filter None values:
+ 		if len(args) == 1:
+ 			# todo: if support >= 2.7 only:
+-			# self._data = {k:v for k,v in args[0].iteritems() if v is not None}
+-			self._data = dict([(k,v) for k,v in args[0].iteritems() if v is not None])
++			# self._data = {k:v for k,v in args[0].items() if v is not None}
++			self._data = dict([(k,v) for k,v in args[0].items() if v is not None])
+ 		# add k,v list or dict (merge):
+ 		elif len(args) == 2:
+ 			self._data.update((args,))
+@@ -191,8 +191,8 @@ class Ticket(object):
+ 			self._data.update(argv)
+ 		# filter (delete) None values:
+ 		# todo: if support >= 2.7 only:
+-		# self._data = {k:v for k,v in self._data.iteritems() if v is not None}
+-		self._data = dict([(k,v) for k,v in self._data.iteritems() if v is not None])
++		# self._data = {k:v for k,v in self._data.items() if v is not None}
++		self._data = dict([(k,v) for k,v in self._data.items() if v is not None])
+ 	
+ 	def getData(self, key=None, default=None):
+ 		# return whole data dict:
+@@ -205,13 +205,13 @@ class Ticket(object):
+ 			# return filtered by lambda/function:
+ 			if callable(key):
+ 				# todo: if support >= 2.7 only:
+-				# return {k:v for k,v in self._data.iteritems() if key(k)}
+-				return dict([(k,v) for k,v in self._data.iteritems() if key(k)])
++				# return {k:v for k,v in self._data.items() if key(k)}
++				return dict([(k,v) for k,v in self._data.items() if key(k)])
+ 			# return filtered by keys:
+ 			if hasattr(key, '__iter__'):
+ 				# todo: if support >= 2.7 only:
+-				# return {k:v for k,v in self._data.iteritems() if k in key}
+-				return dict([(k,v) for k,v in self._data.iteritems() if k in key])
++				# return {k:v for k,v in self._data.items() if k in key}
++				return dict([(k,v) for k,v in self._data.items() if k in key])
+ 		# return single value of data:
+ 		return self._data.get(key, default)
+ 
+diff --git a/fail2ban/server/utils.py b/fail2ban/server/utils.py
+index d4461a7..13c24e7 100644
+--- a/fail2ban/server/utils.py
++++ b/fail2ban/server/utils.py
+@@ -57,7 +57,7 @@ _RETCODE_HINTS = {
+ 
+ # Dictionary to lookup signal name from number
+ signame = dict((num, name)
+-	for name, num in signal.__dict__.iteritems() if name.startswith("SIG"))
++	for name, num in signal.__dict__.items() if name.startswith("SIG"))
+ 
+ class Utils():
+ 	"""Utilities provide diverse static methods like executes OS shell commands, etc.
+@@ -109,7 +109,7 @@ class Utils():
+ 								break
+ 					else: # pragma: 3.x no cover (dict is in 2.6 only)
+ 						remlst = []
+-						for (ck, cv) in cache.iteritems():
++						for (ck, cv) in cache.items():
+ 							# if expired:
+ 							if cv[1] <= t:
+ 								remlst.append(ck)
+@@ -152,7 +152,7 @@ class Utils():
+ 		if not isinstance(realCmd, list):
+ 			realCmd = [realCmd]
+ 		i = len(realCmd)-1
+-		for k, v in varsDict.iteritems():
++		for k, v in varsDict.items():
+ 			varsStat += "%s=$%s " % (k, i)
+ 			realCmd.append(v)
+ 			i += 1
+diff --git a/fail2ban/tests/clientreadertestcase.py b/fail2ban/tests/clientreadertestcase.py
+index 8320370..edad9bc 100644
+--- a/fail2ban/tests/clientreadertestcase.py
++++ b/fail2ban/tests/clientreadertestcase.py
+@@ -349,7 +349,7 @@ class JailReaderTest(LogCaptureTestCase):
+ 		# And multiple groups (`][` instead of `,`)
+ 		result = extractOptions(option.replace(',', ']['))
+ 		expected2 = (expected[0],
+-		 dict((k, v.replace(',', '][')) for k, v in expected[1].iteritems())
++		 dict((k, v.replace(',', '][')) for k, v in expected[1].items())
+ 		)
+ 		self.assertEqual(expected2, result)
+ 
+diff --git a/fail2ban/tests/filtertestcase.py b/fail2ban/tests/filtertestcase.py
+index f4f6ad0..12f48c4 100644
+--- a/fail2ban/tests/filtertestcase.py
++++ b/fail2ban/tests/filtertestcase.py
+@@ -1974,7 +1974,7 @@ class DNSUtilsNetworkTests(unittest.TestCase):
+ 			'93.184.216.34': 'ip4-test', 
+ 			'2606:2800:220:1:248:1893:25c8:1946': 'ip6-test'
+ 		}
+-		d2 = dict([(IPAddr(k), v) for k, v in d.iteritems()])
++		d2 = dict([(IPAddr(k), v) for k, v in d.items()])
+ 		self.assertTrue(isinstance(d.keys()[0], basestring))
+ 		self.assertTrue(isinstance(d2.keys()[0], IPAddr))
+ 		self.assertEqual(d.get(ip4[2], ''), 'ip4-test')
+diff --git a/fail2ban/tests/samplestestcase.py b/fail2ban/tests/samplestestcase.py
+index 1039b65..73bdaad 100644
+--- a/fail2ban/tests/samplestestcase.py
++++ b/fail2ban/tests/samplestestcase.py
+@@ -138,7 +138,7 @@ class FilterSamplesRegex(unittest.TestCase):
+ 
+ 	@staticmethod
+ 	def _filterOptions(opts):
+-				return dict((k, v) for k, v in opts.iteritems() if not k.startswith('test.'))
++				return dict((k, v) for k, v in opts.items() if not k.startswith('test.'))
+ 		
+ def testSampleRegexsFactory(name, basedir):
+ 	def testFilter(self):
+@@ -254,7 +254,7 @@ def testSampleRegexsFactory(name, basedir):
+ 							"Multiple regexs matched %r" % (map(lambda x: x[0], ret)))
+ 
+ 						# Verify match captures (at least fid/host) and timestamp as expected
+-						for k, v in faildata.iteritems():
++						for k, v in faildata.items():
+ 							if k not in ("time", "match", "desc", "filter"):
+ 								fv = fail.get(k, None)
+ 								if fv is None:
+@@ -296,7 +296,7 @@ def testSampleRegexsFactory(name, basedir):
+ 								'\n'.join(pprint.pformat(fail).splitlines())))
+ 
+ 		# check missing samples for regex using each filter-options combination:
+-		for fltName, flt in self._filters.iteritems():
++		for fltName, flt in self._filters.items():
+ 			flt, regexsUsedIdx = flt
+ 			regexList = flt.getFailRegex()
+ 			for failRegexIndex, failRegex in enumerate(regexList):
+diff --git a/fail2ban/tests/utils.py b/fail2ban/tests/utils.py
+index bb1b302..527b9ac 100644
+--- a/fail2ban/tests/utils.py
++++ b/fail2ban/tests/utils.py
+@@ -572,7 +572,7 @@ def assertSortedEqual(self, a, b, level=1, nestedOnly=True, key=repr, msg=None):
+ 				return
+ 			raise ValueError('%r != %r' % (a, b))
+ 		if isinstance(a, dict) and isinstance(b, dict): # compare dict's:
+-			for k, v1 in a.iteritems():
++			for k, v1 in a.items():
+ 				v2 = b[k]
+ 				if isinstance(v1, (dict, list, tuple)) and isinstance(v2, (dict, list, tuple)):
+ 					_assertSortedEqual(v1, v2, level-1 if level != 0 else 0, nestedOnly, key)
+-- 
+2.7.4
+
