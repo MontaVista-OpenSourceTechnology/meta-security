@@ -1,0 +1,41 @@
+Index: git/libclamav/Makefile.in
+===================================================================
+--- git.orig/libclamav/Makefile.in
++++ git/libclamav/Makefile.in
+@@ -1328,7 +1328,7 @@ libclamav_nocxx_la_SOURCES = bytecode_no
+ libclamav_nocxx_la_CFLAGS = $(AM_CFLAGS) @SSL_CPPFLAGS@ @JSON_CPPFLAGS@ @ZLIB_CFLAGS@ @PCRE_CPPFLAGS@
+ libclamav_la_LIBADD = @SSL_LIBS@ @JSON_LIBS@ @PCRE_LIBS@ @LIBCLAMAV_LIBS@ @ZLIB_LIBS@ @LIBLTDL@ $(XML_LIBS) $(IFACELIBADD) $(MSPACKLIBADD) $(LLVMLIBADD) libclamav_internal_utils.la @THREAD_LIBS@ @LIBM@
+ libclamav_la_DEPENDENCIES = @LTDLDEPS@ $(IFACEDEP) $(LLVMDEP) $(MSPACKDEP) libclamav_internal_utils.la
+-libclamav_la_CFLAGS = $(MSPACK_CFLAGS) $(AM_CFLAGS) $(YARA_CFLAGS) -DSEARCH_LIBDIR=\"$(libdir)\" @LIBCLAMAV_CPPFLAGS@ @SSL_CPPFLAGS@ @JSON_CPPFLAGS@ @ZLIB_CFLAGS@ @PCRE_CPPFLAGS@ @XML_CPPFLAGS@
++libclamav_la_CFLAGS = $(MSPACK_CFLAGS) $(AM_CFLAGS) $(YARA_CFLAGS) @LIBCLAMAV_CPPFLAGS@ @SSL_CPPFLAGS@ @JSON_CPPFLAGS@ @ZLIB_CFLAGS@ @PCRE_CPPFLAGS@ @XML_CPPFLAGS@
+ libclamav_la_LDFLAGS = @SSL_LDFLAGS@ @TH_SAFE@ @JSON_LDFLAGS@ \
+ 	@LIBICONV@ $(XML_LIBS) -version-info @LIBCLAMAV_VERSION@ \
+ 	-no-undefined $(am__append_8)
+Index: git/libclamav/others.c
+===================================================================
+--- git.orig/libclamav/others.c
++++ git/libclamav/others.c
+@@ -132,10 +132,6 @@ static lt_dlhandle lt_dlfind(const char
+     lt_dlhandle rhandle;
+     unsigned i;
+ 
+-    if (lt_dladdsearchdir(SEARCH_LIBDIR)) {
+-        cli_dbgmsg("lt_dladdsearchdir failed for %s\n", SEARCH_LIBDIR);
+-    }
+-
+     searchpath = lt_dlgetsearchpath();
+     if (!searchpath)
+         searchpath = "";
+Index: git/clamav-config.in
+===================================================================
+--- git.orig/clamav-config.in
++++ git/clamav-config.in
+@@ -59,7 +59,7 @@ while test $# -gt 0; do
+        	;;
+ 
+     --libs)
+-       	echo -L@libdir@ @LIBCLAMAV_LIBS@
++       	echo @LIBCLAMAV_LIBS@
+        	;;
+ 
+     *)

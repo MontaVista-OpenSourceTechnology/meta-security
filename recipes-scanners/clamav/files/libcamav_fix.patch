@@ -1,0 +1,13 @@
+Index: git/libclamav.pc.in
+===================================================================
+--- git.orig/libclamav.pc.in
++++ git/libclamav.pc.in
+@@ -6,7 +6,7 @@ includedir=@includedir@
+ Name: libclamav
+ Description: A GPL virus scanner
+ Version: @PACKAGE_VERSION@
+-Libs: -L${libdir} -lclamav
++Libs: -lclamav
+ Libs.private: @LIBCLAMAV_LIBS@
+ Cflags: -I${includedir}
+ 
