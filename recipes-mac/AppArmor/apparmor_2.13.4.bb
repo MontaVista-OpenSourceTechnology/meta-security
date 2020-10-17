@@ -24,6 +24,7 @@ SRC_URI = " \
     file://0001-Makefile.am-suppress-perllocal.pod.patch \
     file://run-ptest \
     file://0001-regression-tests-Don-t-build-syscall_sysctl-if-missi.patch \
+    file://0001-tests-regression-fix-failure-on-older-versions-of-Ma.patch \
     "
 
 SRCREV = "df0ac742f7a1146181d8734d03334494f2015134"
