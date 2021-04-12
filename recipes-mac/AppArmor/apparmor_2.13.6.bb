@@ -32,7 +32,7 @@ PARALLEL_MAKE = ""
 
 COMPATIBLE_MACHINE_mips64 = "(!.*mips64).*"
 
-inherit pkgconfig autotools-brokensep update-rc.d python3native perlnative ptest cpan manpages systemd features_check
+inherit pkgconfig autotools-brokensep update-rc.d python3native python3targetconfig perlnative ptest cpan manpages systemd features_check
 REQUIRED_DISTRO_FEATURES = "apparmor"
 
 PACKAGECONFIG ??= "python perl aa-decode"
