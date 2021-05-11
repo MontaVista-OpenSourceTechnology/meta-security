@@ -1,6 +1,8 @@
 Meta-security
 =============
 
+<a href="https://bestpractices.coreinfrastructure.org/projects/765"><img src="https://bestpractices.coreinfrastructure.org/projects/765/badge"></a> 
+
 This layer provides security tools, hardening tools for Linux kernels
 and libraries for implementing security mechanisms.
 
