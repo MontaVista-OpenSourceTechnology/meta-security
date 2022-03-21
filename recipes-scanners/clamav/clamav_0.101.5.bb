@@ -29,7 +29,7 @@ inherit autotools pkgconfig useradd systemd multilib_header multilib_script
 
 CLAMAV_UID ?= "clamav"
 CLAMAV_GID ?= "clamav"
-INSTALL_CLAMAV_CVD ?= "1"
+INSTALL_CLAMAV_CVD ?= "0"
 
 CLAMAV_USR_DIR = "${STAGING_DIR_NATIVE}/usr"
 CLAMAV_USR_DIR_class-target = "${STAGING_DIR_HOST}/usr"
