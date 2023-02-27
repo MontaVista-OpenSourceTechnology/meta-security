@@ -8,8 +8,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 DEPENDS = "openldap cyrus-sasl libtdb ding-libs libpam c-ares krb5 autoconf-archive"
 DEPENDS += "libldb dbus libtalloc libpcre glib-2.0 popt e2fsprogs libtevent"
 
+PR .= "1"
 SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz\
-            file://sssd.conf "
+            file://sssd.conf \
+            file://CVE-2022-4254-1.patch \
+            file://CVE-2022-4254-2.patch \
+            "
 
 SRC_URI[md5sum] = "af4288c9d1f9953e3b3b6e0b165a5ece"
 SRC_URI[sha256sum] = "ee5d17a0c663c09819cbab9364085b9e57faeca02406cc30efe14cc0cfc04ec4"
