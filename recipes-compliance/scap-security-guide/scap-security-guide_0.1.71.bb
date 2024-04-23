@@ -82,6 +82,11 @@ do_install_ptest() {
         install -d ${t}/$d
         cp -fr ${S}/$d/* ${t}/$d/.
     done
+
+    # Remove __pycache__ directories as they contain references to TMPDIR
+    for pycachedir in $(find ${D}/${PTEST_PATH} -name __pycache__); do
+        rm -rf $pycachedir
+    done
 }
 
 FILES:${PN} += "${datadir}/xml ${datadir}/openscap"
