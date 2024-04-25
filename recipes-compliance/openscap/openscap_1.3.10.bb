@@ -10,7 +10,7 @@ DEPENDS = "dbus acl bzip2 pkgconfig gconf procps curl libxml2 libxslt libcap swi
 DEPENDS:class-native = "pkgconfig-native swig-native curl-native libxml2-native libxslt-native libcap-native libpcre-native xmlsec1-native"
 
 #March 18th, 2024
-SRCREV = "0e7f654570971c1acee6dd3f34b17121372d6152"
+SRCREV = "6d008616978306ce5e68997dce554a1683064f8f"
 SRC_URI = "git://github.com/OpenSCAP/openscap.git;branch=maint-1.3;protocol=https "
 
 S = "${WORKDIR}/git"
