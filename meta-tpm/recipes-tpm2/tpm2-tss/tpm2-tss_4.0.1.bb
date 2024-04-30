@@ -94,4 +94,4 @@ FILES:${PN} = "\
 
 RDEPENDS:libtss2 = "libgcrypt"
 
-BBCLASSEXTEND = "native"
+BBCLASSEXTEND = "native nativesdk"
