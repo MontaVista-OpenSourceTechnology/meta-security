@@ -63,8 +63,8 @@ DEPENDS += "bc-native"
 # convert it to some better format. Let's drop the first line (doesn't contain
 # any useful info) and feed the rest to a script.
 process_verity() {
-    local ENV="${STAGING_VERITY_DIR}/${IMAGE_BASENAME}.$TYPE.verity.env"
-    local WKS_INC="${STAGING_VERITY_DIR}/${IMAGE_BASENAME}.$TYPE.wks.in"
+    local ENV="${STAGING_VERITY_DIR}/${DM_VERITY_IMAGE}.$TYPE.verity.env"
+    local WKS_INC="${STAGING_VERITY_DIR}/${DM_VERITY_IMAGE}.$TYPE.wks.in"
     rm -f $ENV
 
     # Each line contains a key and a value string delimited by ':'. Read the
