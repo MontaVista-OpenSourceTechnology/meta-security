@@ -90,7 +90,7 @@ do_install () {
     install -d ${D}/${PYTHON_SITEPACKAGES_DIR}
     mv ${D}/${BPN}  ${D}/${PYTHON_SITEPACKAGES_DIR}
 
-    install -m 600 ${WORKDIR}/${BPN}.conf ${D}/${sysconfdir}/${BPN}
+    install -m 600 ${UNPACKDIR}/${BPN}.conf ${D}/${sysconfdir}/${BPN}
 
     # /var/log/sssd needs to be created in runtime. Use rmdir to catch if
     # upstream stops creating /var/log/sssd, or adds something else in
