@@ -38,7 +38,7 @@ do_configure:prepend () {
 
 do_install:append() {
     install -d ${D}${datadir}/openscap
-    install  ${WORKDIR}/run_eval.sh ${D}${datadir}/openscap/.
+    install  ${UNPACKDIR}/run_eval.sh ${D}${datadir}/openscap/.
 }
 
 do_compile_ptest() {
