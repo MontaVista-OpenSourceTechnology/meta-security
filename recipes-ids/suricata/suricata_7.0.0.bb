@@ -66,6 +66,8 @@ do_configure:prepend () {
     oe_runconf
 }
 
+CFLAGS += "-Wno-error=incompatible-pointer-types"
+
 do_compile () {
     # we do this to bypass the make provided by this pkg 
     # patches Makefile to skip the subdir
@@ -82,7 +84,7 @@ do_install () {
     oe_runmake install DESTDIR=${D}
 
     install -d ${D}${sysconfdir}/suricata ${D}${sysconfdir}/default/volatiles
-    install -m 0644 ${WORKDIR}/volatiles.03_suricata  ${D}${sysconfdir}/default/volatiles/03_suricata
+    install -m 0644 ${UNPACKDIR}/volatiles.03_suricata  ${D}${sysconfdir}/default/volatiles/03_suricata
 
     install -m 0644 ${S}/threshold.config ${D}${sysconfdir}/suricata
     install -m 0644 ${S}/suricata.yaml ${D}${sysconfdir}/suricata
