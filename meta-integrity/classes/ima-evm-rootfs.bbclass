@@ -8,6 +8,10 @@ IMA_EVM_KEY_DIR ?= "IMA_EVM_KEY_DIR_NOT_SET"
 # using the example key directory.
 IMA_EVM_PRIVKEY ?= "${IMA_EVM_KEY_DIR}/privkey_ima.pem"
 
+# Additional option when signing. Allows to for example provide
+# --keyid <id> or --keyid-from-cert <filename>.
+IMA_EVM_PRIVKEY_KEYID_OPT ?= ""
+
 # Public part of certificates (used for both IMA and EVM).
 # The default is okay when using the example key directory.
 IMA_EVM_X509 ?= "${IMA_EVM_KEY_DIR}/x509_ima.der"
@@ -69,7 +73,8 @@ ima_evm_sign_rootfs () {
     fi
 
     bbnote "IMA/EVM: Signing root filesystem at ${IMAGE_ROOTFS} with key ${IMA_EVM_PRIVKEY}"
-    evmctl sign --imasig ${evmctl_param} --portable -a sha256 --key ${IMA_EVM_PRIVKEY} -r "${IMAGE_ROOTFS}"
+    evmctl sign --imasig ${evmctl_param} --portable -a sha256 \
+        --key "${IMA_EVM_PRIVKEY}" ${IMA_EVM_PRIVKEY_KEYID_OPT} -r "${IMAGE_ROOTFS}"
 
     # check signing key and signature verification key
     evmctl ima_verify ${evmctl_param} --key "${IMA_EVM_X509}" "${IMAGE_ROOTFS}/lib/libc.so.6" || exit 1
@@ -82,7 +87,8 @@ ima_evm_sign_rootfs () {
         install "${IMA_EVM_POLICY}" ./${sysconfdir}/ima/ima-policy
 
         bbnote "IMA/EVM: Signing IMA policy with key ${IMA_EVM_PRIVKEY}"
-        evmctl sign --imasig ${evmctl_param} --portable -a sha256 --key "${IMA_EVM_PRIVKEY}" "${IMAGE_ROOTFS}/etc/ima/ima-policy"
+        evmctl sign --imasig ${evmctl_param} --portable -a sha256 \
+          --key "${IMA_EVM_PRIVKEY}" ${IMA_EVM_PRIVKEY_KEYID_OPT} "${IMAGE_ROOTFS}/etc/ima/ima-policy"
     fi
 
     # Optionally write the file names and ima and evm signatures into files
