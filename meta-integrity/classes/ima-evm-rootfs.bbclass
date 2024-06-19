@@ -19,11 +19,6 @@ IMA_EVM_X509 ?= "${IMA_EVM_KEY_DIR}/x509_ima.der"
 # ima-local-ca.x509 is what ima-gen-local-ca.sh creates.
 IMA_EVM_ROOT_CA ?= "${IMA_EVM_KEY_DIR}/ima-local-ca.pem"
 
-# Sign all regular files by default.
-IMA_EVM_ROOTFS_SIGNED ?= ". -type f"
-# Hash nothing by default.
-IMA_EVM_ROOTFS_HASHED ?= ". -depth 0 -false"
-
 # Mount these file systems (identified via their mount point) with
 # the iversion flags (needed by IMA when allowing writing).
 IMA_EVM_ROOTFS_IVERSION ?= ""
