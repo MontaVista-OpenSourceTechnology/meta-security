@@ -153,12 +153,7 @@ ima-evm-rootfs.bbclass:
     IMA_EVM_KEY_DIR = "<full path>"
     IMA_EVM_PRIVKEY = "<some other path/privkey_ima.pem>"
 
-By default, the entire file system gets signed. When using a policy which
-does not require that, the set of files to be labelled can be chosen
-by overriding the default "find" expression, for example like this:
-
-    IMA_EVM_ROOTFS_FILES = "usr sbin bin lib -type f"
-
+By default, the entire file system gets signed.
 
 2. Usage
 ========
