@@ -12,6 +12,9 @@ IMA_EVM_PRIVKEY ?= "${IMA_EVM_KEY_DIR}/privkey_ima.pem"
 # --keyid <id> or --keyid-from-cert <filename>.
 IMA_EVM_PRIVKEY_KEYID_OPT ?= ""
 
+# Password for the private key
+IMA_EVM_EVMCTL_KEY_PASSWORD ?= ""
+
 # Public part of certificates (used for both IMA and EVM).
 # The default is okay when using the example key directory.
 IMA_EVM_X509 ?= "${IMA_EVM_KEY_DIR}/x509_ima.der"
@@ -71,6 +74,8 @@ ima_evm_sign_rootfs () {
         bberror "Unknown target architecture bitness: '${tmp}'" >&2
         exit 1
     fi
+
+    export EVMCTL_KEY_PASSWORD=${IMA_EVM_EVMCTL_KEY_PASSWORD}
 
     bbnote "IMA/EVM: Signing root filesystem at ${IMAGE_ROOTFS} with key ${IMA_EVM_PRIVKEY}"
     evmctl sign --imasig ${evmctl_param} --portable -a sha256 \
