@@ -11,7 +11,9 @@ DEPENDS:class-native = "pkgconfig-native swig-native curl-native libxml2-native 
 
 #March 18th, 2024
 SRCREV = "6d008616978306ce5e68997dce554a1683064f8f"
-SRC_URI = "git://github.com/OpenSCAP/openscap.git;branch=maint-1.3;protocol=https "
+SRC_URI = "git://github.com/OpenSCAP/openscap.git;branch=maint-1.3;protocol=https \
+           file://0001-CMakeLists.txt-fix-installation-directory-for-system.patch \
+          "
 
 S = "${WORKDIR}/git"
 
@@ -24,7 +26,7 @@ PACKAGECONFIG[rpm] = "-DENABLE_OSCAP_UTIL_AS_RPM=ON, ,rpm, rpm"
 PACKAGECONFIG[gcrypt] = "-DWITH_CRYPTO=gcrypt, ,libgcrypt"
 PACKAGECONFIG[nss3] = "-DWITH_CRYPTO=nss3, ,nss"
 PACKAGECONFIG[selinux] = ", ,libselinux"
-PACKAGECONFIG[remdediate_service] = "-DENABLE_OSCAP_REMEDIATE_SERVICE=ON,-DENABLE_OSCAP_REMEDIATE_SERVICE=NO,"
+PACKAGECONFIG[remediate_service] = "-DENABLE_OSCAP_REMEDIATE_SERVICE=ON,-DENABLE_OSCAP_REMEDIATE_SERVICE=OFF,"
 
 EXTRA_OECMAKE += "-DENABLE_PROBES_LINUX=ON -DENABLE_PROBES_UNIX=ON \
                   -DENABLE_PROBES_SOLARIS=OFF -DENABLE_PROBES_INDEPENDENT=ON \
@@ -47,14 +49,6 @@ do_configure:append:class-native () {
     sed -i 's:OSCAP_DEFAULT_XSLT_PATH.*$:OSCAP_DEFAULT_XSLT_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/xsl":' ${B}/config.h
 }
 
-do_install:append () {
-    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-        if ${@bb.utils.contains('PACKAGECONFIG','remdediate_service','true','false',d)}; then
-            install -D -m 0644 ${B}/oscap-remediate.service ${D}${systemd_system_unitdir}/oscap-remediate.service
-        fi
-    fi
-}
-
 do_install:class-native[cleandirs] += " ${STAGING_OSCAP_BUILDDIR}"
 do_install:append:class-native () {
     oscapdir=${STAGING_OSCAP_BUILDDIR}/${datadir_native}
@@ -64,7 +58,7 @@ do_install:append:class-native () {
 
 
 SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE:${PN} = "${@bb.utils.contains('PACKAGECONFIG','remdediate_service', 'oscap-remediate.service', '',d)}"
+SYSTEMD_SERVICE:${PN} = "${@bb.utils.contains('PACKAGECONFIG','remediate_service', 'oscap-remediate.service', '',d)}"
 SYSTEMD_AUTO_ENABLE = "disable"
 
 
