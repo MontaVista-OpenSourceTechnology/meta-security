@@ -10,7 +10,9 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI = "https://github.com/tpm2-software/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.gz"
 SRC_URI += "file://0001-tpm2_import-fix-fixed-AES-key-CVE-2021-3565.patch \
-            file://0001-CVE-2024-29039.patch"
+            file://0001-CVE-2024-29039.patch \
+            file://0001-CVE-2024-29038.patch \
+           "
 
 SRC_URI[md5sum] = "48e0f58232b6a86fe4d007acf12af283"
 SRC_URI[sha256sum] = "bb5d3310620e75468fe33dbd530bd73dd648c70ec707b4579c74d9f63fc82704"
