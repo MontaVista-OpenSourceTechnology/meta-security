@@ -16,6 +16,11 @@ SRC_URI += " \
     file://suricata.service \
     file://run-ptest \
     file://fixup.patch \
+    file://CVE-2024-37151.patch \
+    file://CVE-2024-38534.patch \
+    file://CVE-2024-38535_pre.patch \
+    file://CVE-2024-38535.patch \
+    file://CVE-2024-38536.patch \
     "
 
 inherit autotools pkgconfig python3native systemd ptest cargo cargo-update-recipe-crates
