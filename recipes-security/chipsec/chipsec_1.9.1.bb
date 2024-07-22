@@ -12,7 +12,7 @@ DEPENDS = "virtual/kernel nasm-native"
 SRC_URI = "git://github.com/chipsec/chipsec.git;branch=main;protocol=https"
 SRCREV = "d8c2a606bf440c32196c6289a7a458f3ae3107cc"
 
-S = "${WORKDIR}/git"
+S = "${UNPACKDIR}/git"
 
 inherit module setuptools3
 

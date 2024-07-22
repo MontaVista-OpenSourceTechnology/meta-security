@@ -35,7 +35,7 @@ do_install[nostamp] = "1"
 do_install:append () {
     install -d ${D}${libdir}/${PN}/logs   
     install -d ${D}${sysconfdir}   
-    install ${WORKDIR}/aide.conf ${D}${sysconfdir}/
+    install ${UNPACKDIR}/aide.conf ${D}${sysconfdir}/
 
     for dir in ${AIDE_INCLUDE_DIRS}; do
         echo "${dir} NORMAL" >> ${D}${sysconfdir}/aide.conf
@@ -50,7 +50,7 @@ do_install:class-native () {
     install -d ${STAGING_AIDE_DIR}/lib/logs
 
     install ${B}/aide ${STAGING_AIDE_DIR}/bin
-    install ${WORKDIR}/aide.conf ${STAGING_AIDE_DIR}/
+    install ${UNPACKDIR}/aide.conf ${STAGING_AIDE_DIR}/
 
     sed -i -s "s:\@\@define DBDIR.*:\@\@define DBDIR ${STAGING_AIDE_DIR}/lib:" ${STAGING_AIDE_DIR}/aide.conf
     sed -i -e "s:\@\@define LOGDIR.*:\@\@define LOGDIR ${STAGING_AIDE_DIR}/lib/logs:" ${STAGING_AIDE_DIR}/aide.conf

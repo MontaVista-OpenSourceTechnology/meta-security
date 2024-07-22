@@ -15,7 +15,7 @@ include krill-crates.inc
 UPSTREAM_CHECK_URI = "https://github.com/NLnetLabs/${BPN}/releases"
 UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
 
-S = "${WORKDIR}/git"
+S = "${UNPACKDIR}/git"
 CARGO_SRC_DIR = ""
 
 inherit pkgconfig useradd systemd cargo cargo-update-recipe-crates

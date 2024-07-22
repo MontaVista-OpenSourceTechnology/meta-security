@@ -15,7 +15,7 @@ SRC_URI = "git://github.com/ComplianceAsCode/content.git;branch=stable;protocol=
 
 DEPENDS = "openscap-native python3-pyyaml-native python3-jinja2-native libxml2-native expat-native coreutils-native"
 
-S = "${WORKDIR}/git"
+S = "${UNPACKDIR}/git"
 B = "${S}/build"
 
 inherit cmake pkgconfig python3native python3targetconfig ptest
@@ -54,7 +54,7 @@ do_install_ptest() {
     do
        sed -e 's#${HOSTTOOLS_DIR}/##g' \
            -e 's#${RECIPE_SYSROOT_NATIVE}##g' \
-           -e 's#${WORKDIR}#${PTEST_PATH}#g' \
+           -e 's#${UNPACKDIR}#${PTEST_PATH}#g' \
            -e 's#/.*/xmllint#/usr/bin/xmllint#g' \
            -e 's#/.*/oscap#/usr/bin/oscap#g' \
            -e 's#/python3-native##g' \

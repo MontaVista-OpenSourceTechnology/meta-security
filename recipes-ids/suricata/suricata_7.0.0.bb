@@ -96,7 +96,7 @@ do_install () {
 
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
         install -d ${D}${sysconfdir}/tmpfiles.d
-        install -m 0644 ${WORKDIR}/tmpfiles.suricata ${D}${sysconfdir}/tmpfiles.d/suricata.conf
+        install -m 0644 ${UNPACKDIR}/tmpfiles.suricata ${D}${sysconfdir}/tmpfiles.d/suricata.conf
 
         install -d ${D}${systemd_unitdir}/system
         sed  -e s:/etc:${sysconfdir}:g \
@@ -105,7 +105,7 @@ do_install () {
              -e s:/usr/bin:${bindir}:g \
              -e s:/bin/kill:${base_bindir}/kill:g \
              -e s:/usr/lib:${libdir}:g \
-             ${WORKDIR}/suricata.service > ${D}${systemd_unitdir}/system/suricata.service
+             ${UNPACKDIR}/suricata.service > ${D}${systemd_unitdir}/system/suricata.service
     fi
 
     # Remove /var/run as it is created on startup

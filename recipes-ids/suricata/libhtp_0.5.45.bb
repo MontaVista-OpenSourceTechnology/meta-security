@@ -13,9 +13,9 @@ inherit autotools-brokensep pkgconfig
 
 CFLAGS += "-D_DEFAULT_SOURCE"
 
-#S = "${WORKDIR}/suricata-${VER}/${BPN}"
+#S = "${UNPACKDIR}/suricata-${VER}/${BPN}"
 
-S = "${WORKDIR}/git"
+S = "${UNPACKDIR}/git"
 
 do_configure () {
     cd ${S}

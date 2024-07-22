@@ -15,7 +15,7 @@ SRC_URI = "git://github.com/OpenSCAP/openscap.git;branch=maint-1.3;protocol=http
            file://0001-CMakeLists.txt-fix-installation-directory-for-system.patch \
           "
 
-S = "${WORKDIR}/git"
+S = "${UNPACKDIR}/git"
 
 inherit cmake pkgconfig python3native python3targetconfig perlnative systemd
 

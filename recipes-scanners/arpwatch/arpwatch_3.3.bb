@@ -60,9 +60,9 @@ do_install () {
     install -d ${D}/var/lib/arpwatch
 
     oe_runmake install DESTDIR=${D}
-    install -m 644 ${WORKDIR}/arpwatch.conf  ${D}${sysconfdir}
-    install -m 655 ${WORKDIR}/arpwatch_init  ${D}${sysconfdir}/init.d/arpwatch
-    install -m 644 ${WORKDIR}/arpwatch.default  ${D}${sysconfdir}/default
+    install -m 644 ${UNPACKDIR}/arpwatch.conf  ${D}${sysconfdir}
+    install -m 655 ${UNPACKDIR}/arpwatch_init  ${D}${sysconfdir}/init.d/arpwatch
+    install -m 644 ${UNPACKDIR}/arpwatch.default  ${D}${sysconfdir}/default
 }
 
 INITSCRIPT_NAME = "arpwatch"
