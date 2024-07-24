@@ -10,6 +10,7 @@ SRC_URI += " \
     file://suricata.yaml \
     file://suricata.service \
     file://run-ptest \
+    file://CVE-2024-37151.patch \
     "
 
 inherit autotools-brokensep pkgconfig python3-dir systemd ptest
