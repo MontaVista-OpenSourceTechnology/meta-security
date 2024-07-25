@@ -9,7 +9,7 @@ REQUIRED_DISTRO_FEATURES = "ima"
 
 do_install () {
     install -d ${D}/${sysconfdir}/ima
-    install ${WORKDIR}/ima_policy_appraise_all ${D}/${sysconfdir}/ima/ima-policy
+    install ${UNPACKDIR}/ima_policy_appraise_all ${D}/${sysconfdir}/ima/ima-policy
 }
 
 FILES:${PN} = "${sysconfdir}/ima"
