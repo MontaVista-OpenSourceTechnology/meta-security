@@ -114,6 +114,10 @@ do_install () {
     sed -i -e "s:#!.*$:#!${USRBINPATH}/env python3:g" ${D}${bindir}/suricatasc
     sed -i -e "s:#!.*$:#!${USRBINPATH}/env python3:g" ${D}${bindir}/suricatactl
     sed -i -e "s:#!.*$:#!${USRBINPATH}/env python3:g" ${D}${libdir}/suricata/python/suricata/sc/suricatasc.py
+    # The build process dumps config logs into the binary, remove them.
+    sed -i -e 's#${RECIPE_SYSROOT}##g' ${D}${bindir}/suricata
+    sed -i -e 's#${RECIPE_SYSROOT_NATIVE}##g' ${D}${bindir}/suricata
+    sed -i -e 's#CFLAGS.*##g' ${D}${bindir}/suricata
 }
 
 pkg_postinst_ontarget:${PN} () {
@@ -131,3 +135,4 @@ FILES:${PN} += "${systemd_unitdir} ${sysconfdir}/tmpfiles.d"
 FILES:${PN}-python = "${bindir}/suricatasc ${PYTHON_SITEPACKAGES_DIR}"
 
 CONFFILES:${PN} = "${sysconfdir}/suricata/suricata.yaml"
+INSANE_SKIP:${PN} = "already-stripped"
