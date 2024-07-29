@@ -24,6 +24,9 @@ do_compile:append() {
 }
 
 do_install:append() {
+    sed -i -e 's#${S}##g' ${S}/drivers/linux/chipsec.ko
+    sed -i -e 's#${STAGING_KERNEL_BUILDDIR}##g' ${S}/drivers/linux/chipsec.ko
+    sed -i -e 's#${STAGING_KERNEL_DIR}##g' ${S}/drivers/linux/chipsec.ko
 	install -m 0644 ${S}/drivers/linux/chipsec.ko ${D}${PYTHON_SITEPACKAGES_DIR}/chipsec/helper/linux
 }
 
@@ -32,3 +35,4 @@ COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
 FILES:${PN} += "${exec_prefix}"
 
 RDEPENDS:${PN} = "python3 python3-modules"
+INSANE_SKIP:${PN} = "already-stripped"
