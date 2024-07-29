@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 
 SRC_URI = " file://ima_policy_simple"
 
-S = "${WORKDIR}/${BP}"
+S = "${UNPACKDIR}"
 
 inherit features_check
 REQUIRED_DISTRO_FEATURES = "ima"

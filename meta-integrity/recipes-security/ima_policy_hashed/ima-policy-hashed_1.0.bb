@@ -6,7 +6,7 @@ SRC_URI = " \
     file://ima_policy_hashed \
 "
 
-S = "${WORKDIR}/${BP}"
+S = "${UNPACKDIR}"
 
 inherit features_check
 REQUIRED_DISTRO_FEATURES = "ima"
