@@ -23,6 +23,10 @@ inherit autotools-brokensep
 
 EXTRA_OECONF += "--with-libnet-dir=${STAGING_DIR_HOST}${libdir} "
 
+# many configure tests are failing with gcc-14
+CFLAGS += "-Wno-error=implicit-int -Wno-error=implicit-function-declaration"
+BUILD_CFLAGS += "-Wno-error=implicit-int -Wno-error=implicit-function-declaration"
+
 do_configure () {
     oe_runconf
 }
