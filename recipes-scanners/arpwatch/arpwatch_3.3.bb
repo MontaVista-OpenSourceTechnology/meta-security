@@ -21,6 +21,10 @@ ARPWATCH_GID ?= "arpwatch"
 APRWATCH_FROM ?= "root "
 ARPWATH_REPLY ?= "${ARPWATCH_UID}"
 
+# many configure tests are failing with gcc-14
+CFLAGS += "-Wno-error=implicit-int -Wno-error=implicit-function-declaration"
+BUILD_CFLAGS += "-Wno-error=implicit-int -Wno-error=implicit-function-declaration"
+
 PACKAGECONFIG ??= ""
 
 PACKAGECONFIG[email] = "-with-watcher=email=${APRWATCH_FROM} --with-watchee=email=${ARPWATH_REPLY}, , postfix, postfix postfix-cfg"
