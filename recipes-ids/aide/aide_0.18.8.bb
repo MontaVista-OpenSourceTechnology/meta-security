@@ -3,18 +3,20 @@ HOMEPAGE = "https://aide.github.io"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 LICENSE = "GPL-2.0-only"
 
-DEPENDS = "bison-native libpcre"
+DEPENDS = "bison-native libpcre2"
 
 SRC_URI = "https://github.com/aide/aide/releases/download/v${PV}/${BPN}-${PV}.tar.gz \
-           file://aide.conf"
+           file://aide.conf \
+           file://m4_allow.patch \
+           "
 
-SRC_URI[sha256sum] = "c81505246f3ffc2e76036d43a77212ae82895b5881d9b9e25c1361b1a9b7a846"
+SRC_URI[sha256sum] = "16662dc632d17e2c5630b801752f97912a8e22697c065ebde175f1cc37b83a60"
 
 UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
 
 inherit autotools pkgconfig aide-base
 
-PACKAGECONFIG ??=" mhash zlib e2fsattrs posix capabilities curl \
+PACKAGECONFIG ??=" gcrypt zlib e2fsattrs posix capabilities curl pthread \
                  ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux audit', '', d)} \
                  ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'xattr', '', d)} \
                  "
@@ -28,7 +30,7 @@ PACKAGECONFIG[mhash] = "--with-mhash, --without-mhash, libmhash, libmhash"
 PACKAGECONFIG[e2fsattrs] = "--with-e2fsattrs, --without-e2fsattrs, e2fsprogs, e2fsprogs"
 PACKAGECONFIG[capabilities] = "--with-capabilities, --without-capabilities, libcap, libcap"
 PACKAGECONFIG[posix] = "--with-posix-acl, --without-posix-acl, acl, acl"
-
+PACKAGECONFIG[pthread] = "--with-pthread,"
 
 do_install[nostamp] = "1"
 
