@@ -7,9 +7,10 @@ PYPI_PACKAGE = "tpm2-pytss"
 
 SRC_URI[sha256sum] = "20071129379656f5f3c3bc16d364612672b147d81191fb4eb9f9ff9fbee48410"
 
-inherit autotools pkgconfig pypi setuptools3
+inherit autotools pkgconfig pypi python_setuptools_build_meta
 
 DEPENDS = " \
+    python3-setuptools-scm-native \
     python3-asn1crypto-native \
     python3-cryptography-native \
     python3-pkgconfig-native \
