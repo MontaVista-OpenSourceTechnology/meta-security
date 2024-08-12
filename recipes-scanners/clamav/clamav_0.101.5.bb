@@ -18,6 +18,7 @@ SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=rel/0.101 \
     file://tmpfiles.clamav \
     file://${BPN}.service \
     file://freshclam-native.conf \
+    file://CVE-2024-20328.patch \
     "
 
 S = "${WORKDIR}/git"
