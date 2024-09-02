@@ -68,7 +68,7 @@ do_configure:prepend () {
     # use host for RUST_SURICATA_LIB_XC_DIR
     sed -i -e 's,\${host_alias},${RUST_HOST_SYS},' ${S}/configure.ac
     sed -i -e 's,libsuricata_rust.a,libsuricata.a,' ${S}/configure.ac
-    oe_runconf
+    autotools_do_configure
 }
 
 CFLAGS += "-Wno-error=incompatible-pointer-types"
