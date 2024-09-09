@@ -10,7 +10,7 @@ SRC_URI = "https://github.com/tpm2-software/${BPN}/releases/download/${PV}/${BPN
            file://fixup_hosttools.patch \
            "
 
-SRC_URI[sha256sum] = "ba9e52117f254f357ff502e7d60fce652b3bfb26327d236bbf5ab634235e40f1"
+SRC_URI[sha256sum] = "6279a9a1983ea6ffe41925067b7f0de3a6ed95020a30e7c97d80fa2754259534"
 
 inherit autotools pkgconfig systemd useradd
 
