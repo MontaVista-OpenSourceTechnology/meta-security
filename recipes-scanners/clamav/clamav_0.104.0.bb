@@ -22,6 +22,8 @@ SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=rel/0.104;protocol=http
     file://oe_cmake_fixup.patch \
     file://fix_systemd_socket.patch \
     file://CVE-2024-20328.patch \
+    file://CVE-2024-20505.patch \
+    file://CVE-2024-20506.patch \
 "
 S = "${WORKDIR}/git"
 
