@@ -19,8 +19,11 @@ SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=rel/0.101 \
     file://${BPN}.service \
     file://freshclam-native.conf \
     file://CVE-2024-20328.patch \
+    file://CVE-2024-20505.patch \
+    file://CVE-2024-20506.patch \
     "
 
+PR .= ".1"
 S = "${WORKDIR}/git"
 
 LEAD_SONAME = "libclamav.so"
