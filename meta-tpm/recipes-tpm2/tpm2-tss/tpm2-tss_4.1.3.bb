@@ -10,7 +10,7 @@ SRC_URI = "https://github.com/tpm2-software/${BPN}/releases/download/${PV}/${BPN
            file://fixup_hosttools.patch \
            "
 
-SRC_URI[sha256sum] = "6ad3ef0993cf3bc953710abed847ff727ab427b5577e812e3ad3197bbcec069e"
+SRC_URI[sha256sum] = "37f1580200ab78305d1fc872d89241aaee0c93cbe85bc559bf332737a60d3be8"
 
 UPSTREAM_CHECK_URI = "https://github.com/tpm2-software/${BPN}/releases"
 
