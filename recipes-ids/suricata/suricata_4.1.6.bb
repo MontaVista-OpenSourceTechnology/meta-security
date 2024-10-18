@@ -11,8 +11,10 @@ SRC_URI += " \
     file://suricata.service \
     file://run-ptest \
     file://CVE-2024-37151.patch \
+    file://CVE-2024-45797.patch \
     "
 
+PR .= ".1"
 inherit autotools-brokensep pkgconfig python3-dir systemd ptest
 
 CFLAGS += "-D_DEFAULT_SOURCE"
