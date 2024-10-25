@@ -107,6 +107,10 @@ do_install () {
         echo "d ${SSSD_UID}:${SSSD_GID} 0755 ${localstatedir}/log/${BPN} none" > ${D}${sysconfdir}/default/volatiles/99_${BPN}
     fi
 
+    if ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'true', 'false', d)}; then
+        sed '1s,/usr/bin/python,/usr/bin/python3,' -i ${D}${sbindir}/sss_obfuscate
+    fi
+
     # Remove /run as it is created on startup
     rm -rf ${D}/run
 
