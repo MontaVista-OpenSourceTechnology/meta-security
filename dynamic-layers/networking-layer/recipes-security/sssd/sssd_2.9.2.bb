@@ -54,7 +54,7 @@ PACKAGECONFIG[manpages] = "--with-manpages, --with-manpages=no, libxslt-native d
 PACKAGECONFIG[nl] = "--with-libnl, --with-libnl=no, libnl"
 PACKAGECONFIG[nss] = ", ,nss,"
 PACKAGECONFIG[oidc_child] = "--with-oidc-child, --without-oidc-child"
-PACKAGECONFIG[python3] = "--with-python3-bindings, --without-python3-bindings"
+PACKAGECONFIG[python3] = "--with-python3-bindings, --without-python3-bindings python3dir=${PYTHON_SITEPACKAGES_DIR}"
 PACKAGECONFIG[samba] = "--with-samba, --with-samba=no, samba"
 PACKAGECONFIG[selinux] = "--with-selinux, --with-selinux=no --with-semanage=no, libselinux"
 PACKAGECONFIG[ssh] = "--with-ssh, --with-ssh=no, "
@@ -88,9 +88,6 @@ do_install () {
     rmdir --ignore-fail-on-non-empty "${D}/${bindir}"
 
     install -d ${D}/${sysconfdir}/${BPN}
-    install -d ${D}/${PYTHON_SITEPACKAGES_DIR}
-    mv ${D}/${BPN}  ${D}/${PYTHON_SITEPACKAGES_DIR}
-
     install -m 600 ${UNPACKDIR}/${BPN}.conf ${D}/${sysconfdir}/${BPN}
 
     # /var/log/sssd needs to be created in runtime. Use rmdir to catch if
@@ -112,7 +109,6 @@ do_install () {
     # Remove /run as it is created on startup
     rm -rf ${D}/run
 
-#    rm -fr ${D}/sssd
     rm -f ${D}${systemd_system_unitdir}/sssd-secrets.*
 }
 
