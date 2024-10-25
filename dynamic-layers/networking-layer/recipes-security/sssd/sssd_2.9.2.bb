@@ -139,7 +139,7 @@ SYSTEMD_SERVICE:${PN} = " \
 "
 SYSTEMD_AUTO_ENABLE = "disable"
 
-PACKAGES =+ "libsss-sudo"
+PACKAGES =+ "sssd-python libsss-sudo"
 ALLOW_EMPTY:libsss-sudo = "1"
 
 FILES:${PN} += "${base_libdir}/security/pam_sss*.so  \
@@ -151,6 +151,9 @@ FILES:${PN} += "${base_libdir}/security/pam_sss*.so  \
                 ${PYTHON_SITEPACKAGES_DIR}/sssd \
                 "
 
+FILES:${PN}-python = "${sbindir}/sss_obfuscate \
+                      ${PYTHON_SITEPACKAGES_DIR} \
+                      "
 FILES:libsss-sudo = "${libdir}/libsss_sudo.so"
 
 RDEPENDS:${PN} = "bind \
@@ -162,3 +165,4 @@ RDEPENDS:${PN} = "bind \
                   python3-core \
                   python3-logging \
                   "
+RDEPENDS:${PN}-python = "python3-core"
