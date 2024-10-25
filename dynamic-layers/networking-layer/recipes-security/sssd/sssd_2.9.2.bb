@@ -39,7 +39,7 @@ SSSD_UID ?= "root"
 SSSD_GID ?= "root"
 
 CACHED_CONFIGUREVARS = "ac_cv_member_struct_ldap_conncb_lc_arg=no \
-    ac_cv_prog_HAVE_PYTHON3=${PYTHON_DIR} \
+    ac_cv_prog_HAVE_PYTHON3=yes \
     "
 
 PACKAGECONFIG ?= "nss autofs sudo infopipe"
