@@ -156,4 +156,12 @@ FILES:${PN} += "${base_libdir}/security/pam_sss*.so  \
 
 FILES:libsss-sudo = "${libdir}/libsss_sudo.so"
 
-RDEPENDS:${PN} = "bind bind-utils dbus libldb libpam libsss-sudo python3-core"
+RDEPENDS:${PN} = "bind \
+                  bind-utils \
+                  dbus \
+                  libldb \
+                  libpam \
+                  libsss-sudo \
+                  python3-core \
+                  python3-logging \
+                  "
