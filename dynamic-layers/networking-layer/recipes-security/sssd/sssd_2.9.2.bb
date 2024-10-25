@@ -69,6 +69,7 @@ EXTRA_OECONF += " \
     --enable-pammoddir=${base_libdir}/security \
     --with-xml-catalog-path=${STAGING_ETCDIR_NATIVE}/xml/catalog \
     --with-pid-path=/run \
+    --with-os=fedora \
 "
 
 do_configure:prepend() {
