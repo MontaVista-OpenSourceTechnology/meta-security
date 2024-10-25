@@ -31,7 +31,7 @@ SRC_URI[sha256sum] = "827bc65d64132410e6dd3df003f04829d60387ec30e72b2d4e22d93bb6
 
 UPSTREAM_CHECK_URI = "https://github.com/SSSD/${BPN}/releases"
 
-inherit autotools pkgconfig gettext python3-dir features_check systemd
+inherit autotools pkgconfig gettext python3native features_check systemd
 
 REQUIRED_DISTRO_FEATURES = "pam"
 
