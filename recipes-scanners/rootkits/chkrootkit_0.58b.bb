@@ -3,11 +3,12 @@ SUMMARY = "locally checks for signs of a rootkit"
 HOMEPAGE = "http://www.chkrootkit.org/"
 SECTION = "security"
 LICENSE = "BSD-2-Clause"
-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=fdbe53788f7081c63387d8087273f5ff"
+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=6db4d77fb8f0cc84d175e7a1211e4c13"
 
 SRC_URI = "http://archive.ubuntu.com/ubuntu/pool/universe/c/${BPN}/${BPN}_${PV}.orig.tar.gz \
            file://musl_fix.patch"
-SRC_URI[sha256sum] = "06d1faee151aa3e3c0f91ac807ca92e60b75ed1c18268ccef2c45117156d253c"
+
+SRC_URI[sha256sum] = "75ed2ace81f0fa3e9c3fb64dab0e8857ed59247ea755f5898416feb2c66807b9"
 
 inherit autotools-brokensep
 
