@@ -14,3 +14,5 @@ PACKAGECONFIG ?= "openssl"
 PACKAGECONFIG[openssl] = "--with-openssl, --without-openssl, openssl"
 
 BBCLASSEXTEND = "native nativesdk"
+
+CVE_PRODUCT = "libtpms_project:libtpms"
