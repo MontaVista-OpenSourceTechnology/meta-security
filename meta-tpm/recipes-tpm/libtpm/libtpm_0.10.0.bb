@@ -2,10 +2,10 @@ SUMMARY = "LIBPM - Software TPM Library"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=e73f0786a936da3814896df06ad225a9"
 
-SRCREV = "f8c2dc7e12a730dcca4220d7ac5ad86d13dfd630"
-SRC_URI = "git://github.com/stefanberger/libtpms.git;branch=stable-0.9;protocol=https"
+SRCREV = "17f253a767f6b5b7813ae33f12bc79c479576cdc"
+SRC_URI = "git://github.com/stefanberger/libtpms.git;branch=stable-0.10;protocol=https"
 
-PE = "1"
+PE = "2"
 
 S = "${WORKDIR}/git"
 inherit autotools-brokensep pkgconfig perlnative
