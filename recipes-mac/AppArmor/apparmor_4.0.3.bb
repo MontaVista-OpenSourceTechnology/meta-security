@@ -11,17 +11,18 @@ SECTION = "admin"
 LICENSE = "GPL-2.0-only & GPL-2.0-or-later & BSD-3-Clause & LGPL-2.1-or-later"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=fd57a4b0bc782d7b80fd431f10bbf9d0"
 
-DEPENDS = "bison-native apr gettext-native coreutils-native swig-native"
+DEPENDS = "bison-native apr autoconf-archive-native gettext-native coreutils-native swig-native"
 
 SRC_URI = " \
-    git://gitlab.com/apparmor/apparmor.git;protocol=https;branch=apparmor-3.1 \
+    git://gitlab.com/apparmor/apparmor.git;protocol=https;branch=apparmor-4.0 \
     file://run-ptest \
     file://crosscompile_perl_bindings.patch \
     file://0001-Makefile.am-suppress-perllocal.pod.patch \
     file://0001-Makefile-fix-hardcoded-installation-directories.patch \
+    file://0001-fail.py-handle-missing-cgitb.patch \
     "
 
-SRCREV = "e69cb5047946818e6a9df326851483bb075a5cfe"
+SRCREV = "b4dfdf50f50ed1d64161424d036a2453645f0cfe"
 S = "${UNPACKDIR}/git"
 
 PARALLEL_MAKE = ""
@@ -106,7 +107,6 @@ do_install () {
     chown root:root -R ${D}/${datadir}/apparmor
 
     find ${D}${libdir}/perl5/ -type f -name ".packlist" -delete
-    find ${D}${PYTHON_SITEPACKAGES_DIR}/LibAppArmor/ -type f -name "_LibAppArmor*.so" -delete
 }
 
 #Building ptest on arm fails.
