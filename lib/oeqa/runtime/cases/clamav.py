@@ -6,6 +6,7 @@ from tempfile import mkstemp
 from oeqa.runtime.case import OERuntimeTestCase
 from oeqa.core.decorator.depends import OETestDepends
 from oeqa.runtime.decorator.package import OEHasPackage
+from oeqa.core.decorator.data import skipIfFeature
 
 
 class ClamavTest(OERuntimeTestCase):
@@ -48,6 +49,7 @@ class ClamavTest(OERuntimeTestCase):
         self.assertEqual(status, 0, msg = msg)
 
     @OETestDepends(['clamav.ClamavTest.test_ping_clamav_net'])
+    @skipIfFeature('systemd','systemd in DISTRO_FEATURES means update job is already running')
     def test_freshclam_download(self):
         status, output = self.target.run('freshclam --show-progress')
         msg = ('freshclam : DB dowbload failed. '
