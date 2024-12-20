@@ -44,7 +44,7 @@ class ClamavTest(OERuntimeTestCase):
         msg = 'File could not be copied. Output: %s' % output
         self.assertEqual(status, 0, msg=msg)
 
-        status, output = self.target.run('ping -c 1 database.clamav.net')
+        status, output = self.target.run('ping -c 1 database.clamav.net || curl http://database.clamav.net')
         msg = ('ping database.clamav.net failed: output is:\n%s' % output)
         self.assertEqual(status, 0, msg = msg)
 
