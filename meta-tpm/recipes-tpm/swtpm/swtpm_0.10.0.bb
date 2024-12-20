@@ -4,11 +4,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fe8092c832b71ef20dfe4c6d3decb3a8"
 SECTION = "apps"
 
 # expect-native, socat-native, coreutils-native and net-tools-native are reportedly only required for the tests
-DEPENDS = "libtasn1 coreutils-native expect-native socat-native glib-2.0 net-tools-native libtpm json-glib"
+DEPENDS = "libtasn1 coreutils-native expect-native socat-native glib-2.0 net-tools-native libtpms json-glib"
 
-SRCREV = "507d14219dde88eb3eb2d10d15872d4044aa9d3e"
-SRC_URI = "git://github.com/stefanberger/swtpm.git;branch=stable-0.8;protocol=https"
-PE = "1"
+SRCREV = "54f4bb1e702a8b80d990ca00b6f72d5031dd131a"
+SRC_URI = "git://github.com/stefanberger/swtpm.git;branch=stable-0.10;protocol=https"
+PE = "2"
 
 S = "${WORKDIR}/git"
 
@@ -44,6 +44,6 @@ FILES:${PN}-cuse = "${bindir}/swtpm_cuse"
 
 INSANE_SKIP:${PN}   += "dev-so"
 
-RDEPENDS:${PN} = "libtpm"
+RDEPENDS:${PN} = "libtpms"
 
 BBCLASSEXTEND = "native nativesdk"
