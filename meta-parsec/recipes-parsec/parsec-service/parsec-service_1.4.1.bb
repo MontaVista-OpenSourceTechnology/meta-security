@@ -11,6 +11,7 @@ SRC_URI += "crate://crates.io/parsec-service/${PV} \
             file://parsec_init \
             file://systemd.patch \
             file://parsec-tmpfiles.conf \
+            file://0002-Fix-unnecessary-qualifications-error.patch \
 "
 SRC_URI[parsec-service-1.4.1.sha256sum] = "06ad906fb13d6844ad676d4203a1096ae4efc87fe1abcea0481c507df56d8c98"
 
@@ -46,6 +47,7 @@ INITSCRIPT_NAME = "parsec"
 # A local file can be defined in build/local.conf
 # The file should also be included into SRC_URI then
 PARSEC_CONFIG ?= "${S}/config.toml"
+
 
 do_install () {
     # Binaries
