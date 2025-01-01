@@ -6,5 +6,6 @@ header:
 local_conf_header:
     musl: |
         TCLIBC = "musl"
+        DISTRO_FEATURES:remove = "ptest"
 
 machine: qemuarm64
