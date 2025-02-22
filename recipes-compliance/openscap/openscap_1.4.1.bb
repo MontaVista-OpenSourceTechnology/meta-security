@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/OpenSCAP/openscap.git;branch=main;protocol=https \
            file://0001-CMakeLists.txt-fix-installation-directory-for-system.patch \
           "
 
-SRCREV = "a01b5d6927c7bccf41d9c623fee0c5f7105db835"
+SRCREV = "23a8ea3de3c4fd6017db4067675a81287177166e"
 
 S = "${UNPACKDIR}/git"
 
