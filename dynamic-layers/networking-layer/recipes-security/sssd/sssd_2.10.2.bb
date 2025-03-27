@@ -18,16 +18,13 @@ DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'nss', '', \
 
 SRC_URI = "https://github.com/SSSD/sssd/releases/download/${PV}/${BP}.tar.gz \
            file://sssd.conf \
-           file://volatiles.99_sssd \
            file://no_gen.patch \
            file://fix_gid.patch \
            file://drop_ntpdate_chk.patch \
            file://fix-ldblibdir.patch \
            file://musl_fixup.patch \
-           file://0001-sssctl-add-error-analyzer.patch \
-           file://CVE-2023-3758.patch \
            "
-SRC_URI[sha256sum] = "827bc65d64132410e6dd3df003f04829d60387ec30e72b2d4e22d93bb6f762ba"
+SRC_URI[sha256sum] = "e8aa5e6b48ae465bea7064048715ce7e9c53b50ec6a9c69304f59e0d35be40ff"
 
 UPSTREAM_CHECK_URI = "https://github.com/SSSD/${BPN}/releases"
 
@@ -42,24 +39,23 @@ CACHED_CONFIGUREVARS = "ac_cv_member_struct_ldap_conncb_lc_arg=no \
     ac_cv_prog_HAVE_PYTHON3=yes \
     "
 
-PACKAGECONFIG ?= "nss autofs sudo infopipe"
+PACKAGECONFIG ?= "nss autofs sudo"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
 
 PACKAGECONFIG[autofs] = "--with-autofs, --with-autofs=no"
 PACKAGECONFIG[crypto] = ", , libcrypto"
 PACKAGECONFIG[curl] = "--with-kcm, --without-kcm, curl jansson"
-PACKAGECONFIG[infopipe] = "--with-infopipe, --with-infopipe=no, "
 PACKAGECONFIG[manpages] = "--with-manpages, --with-manpages=no, libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
 PACKAGECONFIG[nl] = "--with-libnl, --with-libnl=no, libnl"
 PACKAGECONFIG[nss] = ", ,nss,"
 PACKAGECONFIG[oidc_child] = "--with-oidc-child, --without-oidc-child"
 PACKAGECONFIG[python3] = "--with-python3-bindings, --without-python3-bindings python3dir=${PYTHON_SITEPACKAGES_DIR}, python3-setuptools-native"
 PACKAGECONFIG[samba] = "--with-samba, --with-samba=no, samba"
-PACKAGECONFIG[selinux] = "--with-selinux, --with-selinux=no --with-semanage=no, libselinux"
+PACKAGECONFIG[selinux] = "--with-selinux, --with-selinux=no, libselinux"
 PACKAGECONFIG[ssh] = "--with-ssh, --with-ssh=no, "
 PACKAGECONFIG[sudo] = "--with-sudo, --with-sudo=no, "
-PACKAGECONFIG[systemd] = "--with-initscript=systemd,--with-initscript=sysv,,python3-systemd"
+PACKAGECONFIG[systemd] = "--with-initscript=systemd --with-systemdunitdir=${systemd_system_unitdir} --with-systemdconfdir=${sysconfdir}/systemd/system, --with-initscript=sysv,,python3-systemd"
 
 EXTRA_OECONF += " \
     --disable-cifs-idmap-plugin \
@@ -68,11 +64,11 @@ EXTRA_OECONF += " \
     --without-python2-bindings \
     --enable-pammoddir=${base_libdir}/security \
     --with-xml-catalog-path=${STAGING_ETCDIR_NATIVE}/xml/catalog \
-    --with-pid-path=/run \
+    --with-pid-path=/run/sssd \
     --with-os=fedora \
 "
 
-do_configure:prepend() {
+do_configure:prepend () {
     mkdir -p ${AUTOTOOLS_AUXDIR}/build
     cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/build/
 
@@ -84,6 +80,7 @@ do_compile:prepend () {
      sed -i -e "s/__useconds_t/useconds_t/g" ${S}/src/tools/tools_mc_util.c
      echo '#define NSUPDATE_PATH "${bindir}"' >> ${B}/config.h
 }
+
 do_install () {
     oe_runmake install  DESTDIR="${D}"
     rmdir --ignore-fail-on-non-empty "${D}/${bindir}"
@@ -99,12 +96,14 @@ do_install () {
 
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
         install -d ${D}${sysconfdir}/tmpfiles.d
-        echo "d /var/log/sssd 0750 - - - -" > ${D}${sysconfdir}/tmpfiles.d/sss.conf
+        echo "d /var/log/sssd 0750 ${SSSD_UID} ${SSSD_GID} - -" > ${D}${sysconfdir}/tmpfiles.d/sssd.conf
+        echo "d /run/sssd 0750 ${SSSD_UID} ${SSSD_GID} - -" >> ${D}${sysconfdir}/tmpfiles.d/sssd.conf
     fi
 
     if [ "${@bb.utils.filter('DISTRO_FEATURES', 'sysvinit', d)}" ]; then
         install -d ${D}${sysconfdir}/default/volatiles
-        echo "d ${SSSD_UID}:${SSSD_GID} 0755 ${localstatedir}/log/${BPN} none" > ${D}${sysconfdir}/default/volatiles/99_${BPN}
+        echo "d ${SSSD_UID}:${SSSD_GID} 0750 ${localstatedir}/log/sssd none" > ${D}${sysconfdir}/default/volatiles/99_sssd
+        echo "d ${SSSD_UID}:${SSSD_GID} 0750 ${localstatedir}/run/sssd none" >> ${D}${sysconfdir}/default/volatiles/99_sssd
     fi
 
     if ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'true', 'false', d)}; then
@@ -112,15 +111,13 @@ do_install () {
     fi
 
     # Remove /run as it is created on startup
-    rm -rf ${D}/run
-
-    rm -f ${D}${systemd_system_unitdir}/sssd-secrets.*
+    rm -rf ${D}/run ${D}/var/run
 }
 
 pkg_postinst_ontarget:${PN} () {
-if [ -e /etc/init.d/populate-volatile.sh ] ; then
-    ${sysconfdir}/init.d/populate-volatile.sh update
-fi
+    if [ -e /etc/init.d/populate-volatile.sh ] ; then
+        ${sysconfdir}/init.d/populate-volatile.sh update
+    fi
     chown ${SSSD_UID}:${SSSD_GID} ${sysconfdir}/${BPN}/${BPN}.conf
 }
 
@@ -131,12 +128,11 @@ INITSCRIPT_PARAMS = "start 02 5 3 2 . stop 20 0 1 6 ."
 SYSTEMD_SERVICE:${PN} = " \
     ${@bb.utils.contains('PACKAGECONFIG', 'autofs', 'sssd-autofs.service sssd-autofs.socket', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'curl', 'sssd-kcm.service sssd-kcm.socket', '', d)} \
-    ${@bb.utils.contains('PACKAGECONFIG', 'infopipe', 'sssd-ifp.service ', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'ssh', 'sssd-ssh.service sssd-ssh.socket', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'sudo', 'sssd-sudo.service sssd-sudo.socket', '', d)} \
+    sssd-ifp.service \
     sssd-nss.service \
     sssd-nss.socket \
-    sssd-pam-priv.socket \
     sssd-pam.service \
     sssd-pam.socket \
     sssd.service \
