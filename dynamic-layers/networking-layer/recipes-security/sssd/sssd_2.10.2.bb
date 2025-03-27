@@ -28,12 +28,16 @@ SRC_URI[sha256sum] = "e8aa5e6b48ae465bea7064048715ce7e9c53b50ec6a9c69304f59e0d35
 
 UPSTREAM_CHECK_URI = "https://github.com/SSSD/${BPN}/releases"
 
-inherit autotools pkgconfig gettext python3native features_check systemd
+inherit autotools pkgconfig gettext python3native features_check systemd useradd
 
 REQUIRED_DISTRO_FEATURES = "pam"
 
-SSSD_UID ?= "root"
-SSSD_GID ?= "root"
+SSSD_UID ?= "sssd"
+SSSD_GID ?= "sssd"
+
+USERADD_PACKAGES = "${PN}"
+GROUPADD_PARAM:${PN} = "--system sssd"
+USERADD_PARAM:${PN} = "--system --home /run/sssd --no-create-home -g sssd --shell /sbin/nologin sssd"
 
 CACHED_CONFIGUREVARS = "ac_cv_member_struct_ldap_conncb_lc_arg=no \
     ac_cv_prog_HAVE_PYTHON3=yes \
@@ -66,6 +70,7 @@ EXTRA_OECONF += " \
     --with-xml-catalog-path=${STAGING_ETCDIR_NATIVE}/xml/catalog \
     --with-pid-path=/run/sssd \
     --with-os=fedora \
+    --with-sssd-user=sssd \
 "
 
 do_configure:prepend () {
@@ -87,6 +92,7 @@ do_install () {
 
     install -d ${D}/${sysconfdir}/${BPN}
     install -m 600 ${UNPACKDIR}/${BPN}.conf ${D}/${sysconfdir}/${BPN}
+    chown -R root:${SSSD_GID} ${D}/${sysconfdir}/${BPN}
 
     # /var/log/sssd needs to be created in runtime. Use rmdir to catch if
     # upstream stops creating /var/log/sssd, or adds something else in
@@ -118,7 +124,6 @@ pkg_postinst_ontarget:${PN} () {
     if [ -e /etc/init.d/populate-volatile.sh ] ; then
         ${sysconfdir}/init.d/populate-volatile.sh update
     fi
-    chown ${SSSD_UID}:${SSSD_GID} ${sysconfdir}/${BPN}/${BPN}.conf
 }
 
 CONFFILES:${PN} = "${sysconfdir}/${BPN}/${BPN}.conf"
@@ -146,6 +151,7 @@ FILES:${PN} += "${base_libdir}/security/pam_sss*.so  \
                 ${nonarch_libdir}/tmpfiles.d \
                 ${datadir}/dbus-1/system.d/*.conf \
                 ${datadir}/dbus-1/system-services/*.service \
+                ${datadir}/polkit-1/* \
                 ${libdir}/krb5/* \
                 ${libdir}/ldb/* \
                 ${PYTHON_SITEPACKAGES_DIR}/sssd \
