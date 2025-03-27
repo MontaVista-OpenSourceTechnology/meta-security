@@ -21,10 +21,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=56871e72a5c475289c0d5e4ba3f2ee3a \
                     file://src/oid_ops.c;beginline=378;endline=398;md5=72457a5cdc0354cb5c25c8b150326364\
 "
 
-SRC_URI = "git://gitlab.com/gsasl/libgssglue.git;protocol=https;branch=master \
-           file://libgssglue-canon-name.patch  \
-"
-SRCREV = "c8b4b2936b854a7d4f7ef12e30d6f519b30dec87"
+SRC_URI = "git://gitlab.com/gsasl/libgssglue.git;protocol=https;branch=master"
+SRCREV = "ada76bdaec665f70505f0b3aefe871b873e7c4b6"
 
 S = "${WORKDIR}/git"
 
