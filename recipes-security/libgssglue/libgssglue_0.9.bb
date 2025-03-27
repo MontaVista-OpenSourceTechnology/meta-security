@@ -21,12 +21,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=56871e72a5c475289c0d5e4ba3f2ee3a \
                     file://src/oid_ops.c;beginline=378;endline=398;md5=72457a5cdc0354cb5c25c8b150326364\
 "
 
-SRC_URI = "git://gitlab.com/gsasl/libgssglue.git;protocol=https;branch=master"
+SRC_URI = "git://gitlab.com/gsasl/libgssglue.git;protocol=https;branch=master \
+           file://run-ptest \
+          "
 SRCREV = "ada76bdaec665f70505f0b3aefe871b873e7c4b6"
 
 S = "${WORKDIR}/git"
 
-inherit autotools-brokensep
+inherit autotools-brokensep ptest
 
 do_configure:prepend() {
     cd ${S}
@@ -44,6 +46,15 @@ do_install:append() {
     
     # change the libgssapi_krb5.so path and name(it is .so.2)
     sed -i -e "s:/usr/lib/libgssapi_krb5.so:libgssapi_krb5.so.2:" ${D}${sysconfdir}/gssapi_mech.conf
+}
+
+do_compile_ptest() {
+    echo 'buildtest-TESTS: $(check_PROGRAMS)' >> ${S}/tests/Makefile
+    oe_runmake -C ${S}/tests buildtest-TESTS
+}
+
+do_install_ptest() {
+    install -m 755 ${S}/tests/generic ${D}/${PTEST_PATH}
 }
 
 # gssglue can use krb5, spkm3... as gssapi library, configurable
