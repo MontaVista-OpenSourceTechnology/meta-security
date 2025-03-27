@@ -1,4 +1,4 @@
-From 3e2ca7e06b16ceff6d12beb5113312f6525df595 Mon Sep 17 00:00:00 2001
+From 117078cd32ee2c76bbe7d65325fbc0b451c73ace Mon Sep 17 00:00:00 2001
 From: Jackie Huang <jackie.huang@windriver.com>
 Date: Thu, 14 Sep 2017 11:02:12 +0800
 Subject: [PATCH] configure.ac: avoid searching host for postgresql
@@ -7,16 +7,16 @@ Upstream-Status: Inappropriate [cross compile specific]
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- configure.ac | 101 +++--------------------------------------------------------
+ configure.ac | 101 +++------------------------------------------------
  1 file changed, 5 insertions(+), 96 deletions(-)
 
-Index: samhain-4.4.2/configure.ac
-===================================================================
---- samhain-4.4.2.orig/configure.ac
-+++ samhain-4.4.2/configure.ac
-@@ -1290,90 +1290,11 @@ AC_ARG_WITH(database,
-           AC_DEFINE(WITH_POSTGRES)
-           AC_DEFINE(WITH_DATABASE)
+diff --git a/configure.ac b/configure.ac
+index d0e3657..5b8d167 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1351,90 +1351,11 @@ AC_ARG_WITH(database,
+           AC_DEFINE([WITH_POSTGRES], [1], [Use postgres as database])
+           AC_DEFINE([WITH_DATABASE], [1], [Use a database])
  	  #
 -	  PGCONF="no"
 -	  MY_PATH="${PATH}:/usr/local/bin:/usr/local/pgsql/bin"
@@ -103,14 +103,14 @@ Index: samhain-4.4.2/configure.ac
 -            AC_MSG_RESULT(yes)
 -
 +	  if test -z "${PGSQL_LIB_DIR}" ; then
-+            FAIL_MESSAGE("PGSQL_LIB_DIR is not set!")
++	    FAIL_MESSAGE("PGSQL_LIB_DIR is not set!")
 +	  elif test -z "${PGSQL_INC_DIR}" ; then
-+            FAIL_MESSAGE("PGSQL_INC_DIR is not set!")
++	    FAIL_MESSAGE("PGSQL_INC_DIR is not set!")
 +	  else
  	    LIBS="$LIBS -L${PGSQL_LIB_DIR} -lpq -lm"
  	    if test x"$enable_static" = xyes; then
  	      LIBS="$LIBS -L${PGSQL_LIB_DIR} -lpq -lcrypt -lm"
-@@ -1382,18 +1303,6 @@ AC_ARG_WITH(database,
+@@ -1443,18 +1364,6 @@ AC_ARG_WITH(database,
  	    fi
  	    # CFLAGS="$CFLAGS -I${PGSQL_INC_DIR}"
  	    CPPFLAGS="$CPPFLAGS -I${PGSQL_INC_DIR}"
@@ -129,3 +129,6 @@ Index: samhain-4.4.2/configure.ac
  	  fi
  	elif test "x${withval}" = "xodbc"; then
  	  AC_MSG_CHECKING(for odbc in /usr /usr/local ODBC_HOME)
+-- 
+2.34.1
+

@@ -1,4 +1,4 @@
-From 00fb527e45da42550156197647e01de9a6b1ad52 Mon Sep 17 00:00:00 2001
+From 041af4897336b0873cbac8d15b434638bf3aaf7e Mon Sep 17 00:00:00 2001
 From: Wenzong Fan <wenzong.fan@windriver.com>
 Date: Mon, 3 Mar 2014 01:50:01 -0500
 Subject: [PATCH] fix real path for some files/dirs
@@ -7,11 +7,11 @@ Upstream-Status: Inappropriate [configuration]
 
 Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- samhainrc.linux |   15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ samhainrc.linux | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/samhainrc.linux b/samhainrc.linux
-index e9727b4..7775d83 100644
+index 5b6ec6a..ff6ddf1 100644
 --- a/samhainrc.linux
 +++ b/samhainrc.linux
 @@ -93,7 +93,6 @@ dir = 99/etc
@@ -57,5 +57,5 @@ index e9727b4..7775d83 100644
  [Attributes]
  #
 -- 
-1.7.9.5
+2.34.1
 

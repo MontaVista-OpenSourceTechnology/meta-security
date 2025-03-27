@@ -1,20 +1,22 @@
-commit 4c6658441eb3ffc4e51ed70f78cbdab046957580
-Author: Aws Ismail <aws.ismail@windriver.com>
-Date:   Fri Jun 22 16:38:20 2012 -0400
+From 5797a57fd839d4b42c38fec49a6f937ca2e359af Mon Sep 17 00:00:00 2001
+From: Aws Ismail <aws.ismail@windriver.com>
+Date: Fri, 22 Jun 2012 16:38:20 -0400
+Subject: [PATCH] Make samhainrc OE-friendly.
 
-Make samhainrc OE-friendly.
-
-Patch the samhainrc that will be installed 
+Patch the samhainrc that will be installed
 as part of the 'make install' step to more
 accurately reflect what will be found, and
 what will be of concern, on a OE install.
-    
+
 Upstream-Status: Inappropriate [configuration]
 
 Signed-off-by: Aws Ismail <aws.ismail@windriver.com>
+---
+ samhainrc.linux | 63 +++++++++----------------------------------------
+ 1 file changed, 11 insertions(+), 52 deletions(-)
 
 diff --git a/samhainrc.linux b/samhainrc.linux
-index 9bc5ca4..10a8176 100644
+index 02906bb..5b6ec6a 100644
 --- a/samhainrc.linux
 +++ b/samhainrc.linux
 @@ -74,7 +74,6 @@ dir = 0/
@@ -128,7 +130,7 @@ index 9bc5ca4..10a8176 100644
  
  ## Remote server (yule)
  ##
-@@ -556,7 +513,8 @@ ChecksumTest=check
+@@ -539,7 +496,8 @@ ChecksumTest=check
  ## and I/O limit (kilobytes per second; 0 == off)
  ## to reduce load on host.
  #
@@ -138,7 +140,7 @@ index 9bc5ca4..10a8176 100644
  # SetIOLimit = 0
  
  ## The version string to embed in file signature databases
-@@ -565,13 +523,14 @@ ChecksumTest=check
+@@ -548,13 +506,14 @@ ChecksumTest=check
  
  ## Interval between time stamp messages
  #
@@ -156,3 +158,6 @@ index 9bc5ca4..10a8176 100644
  
  ## Alternative: crontab-like schedule
  #
+-- 
+2.34.1
+

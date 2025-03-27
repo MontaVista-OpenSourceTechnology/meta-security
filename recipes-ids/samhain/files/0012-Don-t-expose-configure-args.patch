@@ -1,4 +1,4 @@
-From 111b1e8f35e989513d8961a45a806767109f6e1e Mon Sep 17 00:00:00 2001
+From 4625ce72e462950cfbbd37ad2a19be625fd081b0 Mon Sep 17 00:00:00 2001
 From: Mingli Yu <mingli.yu@windriver.com>
 Date: Thu, 11 Aug 2022 17:15:30 +0800
 Subject: [PATCH] Don't expose configure args
@@ -40,5 +40,5 @@ index 635a746..b9a42e7 100644
  
  	echo '#!/bin/sh' > ./sstrip
 -- 
-2.25.1
+2.34.1
 

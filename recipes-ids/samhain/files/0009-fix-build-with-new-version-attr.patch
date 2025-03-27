@@ -1,4 +1,4 @@
-From e67acafa62f71f0015ed548918b98ed0b1ded128 Mon Sep 17 00:00:00 2001
+From 9d693fbeb0a14bfe858aed2b46cb9e74a90d00b9 Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Sun, 19 Jan 2020 15:53:48 +0800
 Subject: [PATCH] fix build with new version attr
@@ -12,15 +12,15 @@ Upstream-Status: Pending
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- aclocal.m4    | 26 +++++++++++---------------
+ acinclude.m4  | 26 +++++++++++---------------
  src/sh_unix.c |  2 +-
  2 files changed, 12 insertions(+), 16 deletions(-)
 
-diff --git a/aclocal.m4 b/aclocal.m4
-index ee5b204..38cef8e 100644
---- a/aclocal.m4
-+++ b/aclocal.m4
-@@ -1453,23 +1453,19 @@ AC_DEFUN([sh_CHECK_POSIX_ACL],
+diff --git a/acinclude.m4 b/acinclude.m4
+index e2a57e2..bfdd2f6 100644
+--- a/acinclude.m4
++++ b/acinclude.m4
+@@ -1392,23 +1392,19 @@ AC_DEFUN([sh_CHECK_POSIX_ACL],
  
  AC_DEFUN([sh_CHECK_XATTR],
  [
@@ -53,13 +53,13 @@ index ee5b204..38cef8e 100644
 +  LIBS="$OLDLIBS"
 +
    if test x"$sh_fattr" = xyes; then
- 	  AC_DEFINE(USE_XATTR, 1, [Define if you want extended attributes support.])
+ 	  AC_DEFINE([USE_XATTR], [1], [Define if you want extended attributes support.])
  	  LIBS="$LIBS $LIBATTR"
 diff --git a/src/sh_unix.c b/src/sh_unix.c
-index 3ede57f..ef236e9 100644
+index b1c0b75..2469068 100644
 --- a/src/sh_unix.c
 +++ b/src/sh_unix.c
-@@ -3681,7 +3681,7 @@ static char * sh_unix_getinfo_acl (char * path, int fd, struct stat * buf)
+@@ -3682,7 +3682,7 @@ static char * sh_unix_getinfo_acl (char * path, int fd, struct stat * buf)
  
  #ifdef USE_XATTR
  
@@ -69,5 +69,5 @@ index 3ede57f..ef236e9 100644
  {
    char *  out   = NULL;
 -- 
-2.7.4
+2.34.1
 
