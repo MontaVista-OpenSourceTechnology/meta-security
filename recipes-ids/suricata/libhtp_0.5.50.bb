@@ -4,10 +4,8 @@ require suricata.inc
 
 LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=596ab7963a1a0e5198e5a1c4aa621843"
 
-SRC_URI = "git://github.com/OISF/libhtp.git;protocol=https;branch=0.5.x \
-           file://CVE-2024-45797.patch \
-          "
-SRCREV = "8bdfe7b9d04e5e948c8fbaa7472e14d884cc00af"
+SRC_URI = "git://github.com/OISF/libhtp.git;protocol=https;branch=0.5.x"
+SRCREV = "ebe480be4a5f3bb1d44be6a9a6c2755bd8ef7e71"
 
 DEPENDS = "zlib"
 
