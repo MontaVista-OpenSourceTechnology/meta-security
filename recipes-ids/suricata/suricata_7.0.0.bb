@@ -23,6 +23,7 @@ SRC_URI += " \
     file://CVE-2024-38536.patch \
     file://CVE-2024-45795.patch \
     file://CVE-2024-45796.patch \
+    file://CVE-2024-55605.patch \
     "
 
 inherit autotools pkgconfig python3native systemd ptest cargo cargo-update-recipe-crates
