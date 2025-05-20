@@ -85,7 +85,23 @@ do_configure:prepend () {
     # use host for RUST_SURICATA_LIB_XC_DIR
     sed -i -e 's,\${host_alias},${RUST_HOST_SYS},' ${S}/configure.ac
     sed -i -e 's,libsuricata_rust.a,libsuricata.a,' ${S}/configure.ac
+    # Address build configuration written to src/build-info.h
+    sed -i -e 's,\(| sed -e '\''s/^/"/'\''\)\( |\),\1 -e '\''s#${WORKDIR}#\\.#g'\''\2,' ${S}/configure.ac
     oe_runconf
+}
+
+CFLAGS += "-Wno-error=incompatible-pointer-types"
+
+# Commit 7a2b9acef2 cargo: pass PACKAGECONFIG_CONFARGS to cargo build
+# breaks building this recipe. Providing a copy of the original function
+# Armin 2025/04/01
+#
+oe_cargo_build () {
+    export RUSTFLAGS="${RUSTFLAGS}"
+    bbnote "Using rust targets from ${RUST_TARGET_PATH}"
+    bbnote "cargo = $(which ${CARGO})"
+    bbnote "${CARGO} build ${CARGO_BUILD_FLAGS}$@"
+    "${CARGO}" build ${CARGO_BUILD_FLAGS}"$@"
 }
 
 do_compile () {
