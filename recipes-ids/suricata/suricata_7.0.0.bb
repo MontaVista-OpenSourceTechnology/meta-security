@@ -68,6 +68,8 @@ do_configure:prepend () {
     # use host for RUST_SURICATA_LIB_XC_DIR
     sed -i -e 's,\${host_alias},${RUST_HOST_SYS},' ${S}/configure.ac
     sed -i -e 's,libsuricata_rust.a,libsuricata.a,' ${S}/configure.ac
+    # Address build configuration written to src/build-info.h
+    sed -i -e 's,\(| sed -e '\''s/^/"/'\''\)\( |\),\1 -e '\''s#${WORKDIR}#\\.#g'\''\2,' ${S}/configure.ac
     autotools_do_configure
 }
 
@@ -126,10 +128,6 @@ do_install () {
     sed -i -e "s:#!.*$:#!${USRBINPATH}/env python3:g" ${D}${bindir}/suricatasc
     sed -i -e "s:#!.*$:#!${USRBINPATH}/env python3:g" ${D}${bindir}/suricatactl
     sed -i -e "s:#!.*$:#!${USRBINPATH}/env python3:g" ${D}${libdir}/suricata/python/suricata/sc/suricatasc.py
-    # The build process dumps config logs into the binary, remove them.
-    sed -i -e 's#${RECIPE_SYSROOT}##g' ${D}${bindir}/suricata
-    sed -i -e 's#${RECIPE_SYSROOT_NATIVE}##g' ${D}${bindir}/suricata
-    sed -i -e 's#CFLAGS.*##g' ${D}${bindir}/suricata
 }
 
 pkg_postinst_ontarget:${PN} () {
@@ -147,4 +145,3 @@ FILES:${PN} += "${systemd_unitdir} ${sysconfdir}/tmpfiles.d"
 FILES:${PN}-python = "${bindir}/suricatasc ${PYTHON_SITEPACKAGES_DIR}"
 
 CONFFILES:${PN} = "${sysconfdir}/suricata/suricata.yaml"
-INSANE_SKIP:${PN} = "already-stripped"
