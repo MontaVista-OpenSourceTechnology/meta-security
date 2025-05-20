@@ -131,9 +131,7 @@ do_install () {
 }
 
 pkg_postinst_ontarget:${PN} () {
-if command -v systemd-tmpfiles >/dev/null; then
-    systemd-tmpfiles --create ${sysconfdir}/tmpfiles.d/suricata.conf
-elif [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
+if [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
     ${sysconfdir}/init.d/populate-volatile.sh update
 fi
 }
