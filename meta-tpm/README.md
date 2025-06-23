@@ -69,7 +69,7 @@ $ git config format.subjectPrefix meta-security][PATCH
 
 Now you can just do 'git send-email origin/master' to send all local patches.
 
-Maintainers:    Armin Kuster <akuster808@gmail.com>
+Maintainers:    
 
 
 License

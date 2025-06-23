@@ -88,7 +88,7 @@ Now you can just do 'git send-email origin/master' to send all local patches.
 
 For pull requests, please use create-pull-request and send-pull-request. 
 
-Maintainers:    Armin Kuster <akuster808@gmail.com>
+Maintainers:    Open
 
 
 License
