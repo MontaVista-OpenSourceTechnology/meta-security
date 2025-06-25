@@ -21,6 +21,7 @@ SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=rel/0.101 \
     file://CVE-2024-20328.patch \
     file://CVE-2024-20505.patch \
     file://CVE-2024-20506.patch \
+    file://CVE-2025-20260.patch \
     "
 
 PR .= ".1"
