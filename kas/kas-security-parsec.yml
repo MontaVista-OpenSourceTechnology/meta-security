@@ -1,5 +1,5 @@
 header:
-    version: 9
+    version: 19
     includes:
         - kas-security-base.yml
 
@@ -10,7 +10,7 @@ repos:
 
   meta-clang:
     url: https://github.com/kraj/meta-clang.git
-    refspec: master
+    branch: kirkstone
 
 local_conf_header:
   meta-parsec: |

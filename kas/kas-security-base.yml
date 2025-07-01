@@ -1,5 +1,5 @@
 header:
-  version: 9
+  version: 19
 
 distro: poky
 
@@ -13,16 +13,16 @@ repos:
       meta-hardening:
 
   poky:
-    url: https://git.yoctoproject.org/git/poky
-    refspec: master
+    url: "https://git.yoctoproject.org/git/poky"
+    branch: kirkstone
     layers:
       meta:
       meta-poky:
       meta-yocto-bsp:
-
+ 
   meta-openembedded:
-    url: http://git.openembedded.org/meta-openembedded
-    refspec: master
+    url: "http://git.openembedded.org/meta-openembedded"
+    branch: kirkstone
     layers:
       meta-oe:
       meta-perl:
@@ -41,8 +41,8 @@ local_conf_header:
     INHERIT += "report-error"
     INHERIT += "testimage"
     INHERIT += "rm_work"
-    BB_NUMBER_THREADS="24"
-    BB_NUMBER_PARSE_THREADS="12"
+    BB_NUMBER_THREADS = "24"
+    BB_NUMBER_PARSE_THREADS = "12"
     BB_TASK_NICE_LEVEL = '5'
     BB_TASK_NICE_LEVEL_task-testimage = '0'
     BB_TASK_IONICE_LEVEL = '2.7'
@@ -52,6 +52,7 @@ local_conf_header:
     PACKAGE_CLASSES = "package_ipk"
 
     DISTRO_FEATURES:append = " security pam apparmor smack ima tpm tpm2"
+    DISTRO_FEATURES:remove = "ptest"
     MACHINE_FEATURES:append = " tpm tpm2"
 
   diskmon: |
@@ -64,6 +65,10 @@ local_conf_header:
     ABORT,${DL_DIR},100M,1K \
     ABORT,${SSTATE_DIR},100M,1K \
     ABORT,/tmp,10M,1K"
+
+  dlsstate: |
+    DL_DIR = "/home/gitlab-runner/build/downloads"
+    SSTATE_DIR = "/home/gitlab-runner/build/sstate-cache"
 
 bblayers_conf_header:
   base: |

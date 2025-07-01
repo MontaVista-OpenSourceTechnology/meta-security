@@ -1,8 +1,8 @@
 header:
-    version: 9
+    version: 19
     includes: 
         - kas-security-base.yml
 
 local_conf_header:
   alt: |
-      DISTRO_FEATURES:append = " systemd"
+      INIT_MANAGER = "systemd"
