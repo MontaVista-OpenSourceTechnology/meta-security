@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=9bfa86579213cb4c6adaffface6b2820"
 LICENSE = "BSD-3-Clause"
 
 SRCREV = "459f0abf2ac08d36e5fc4a2619bc75cff7000da9"
-SRC_URI = "git://github.com/ComplianceAsCode/content.git;branch=stable;protocol=https \
+SRC_URI = "git://github.com/ComplianceAsCode/content.git;nobranch=1;protocol=https \
            file://run_eval.sh \
            file://run-ptest \
            "
