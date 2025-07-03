@@ -11,7 +11,5 @@ SRCREV = "e4827163741e0804f12ac96c81b8e97649be6795"
 
 DEPENDS += "libusb1"
 
-S = "${WORKDIR}/git"
-
 inherit pkgconfig meson
 

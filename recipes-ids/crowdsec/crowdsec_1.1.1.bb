@@ -12,8 +12,6 @@ GO_IMPORT = "import"
 
 inherit go
 
-S = "${UNPACKDIR}/git"
-
 do_compile() {
     export GOARCH="${TARGET_GOARCH}"
     export GOROOT="${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"

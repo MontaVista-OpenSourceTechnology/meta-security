@@ -10,8 +10,6 @@ SRCREV = "54f4bb1e702a8b80d990ca00b6f72d5031dd131a"
 SRC_URI = "git://github.com/stefanberger/swtpm.git;branch=stable-0.10;protocol=https"
 PE = "2"
 
-S = "${WORKDIR}/git"
-
 PARALLEL_MAKE = ""
 inherit autotools pkgconfig perlnative
 

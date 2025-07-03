@@ -26,8 +26,6 @@ inherit systemd
 
 SYSTEMD_SERVICE:${PN} = "fail2ban.service"
 
-S = "${UNPACKDIR}/git"
-
 do_install:append () {
     rm  -f ${D}/${bindir}/fail2ban-python
     install -d ${D}/${sysconfdir}/fail2ban

@@ -23,9 +23,6 @@ inherit features_check
 
 REQUIRED_DISTRO_FEATURES = "smack"
 
-
-S = "${WORKDIR}/git"
-
 PACKAGECONFIG ??= ""
 PACKAGECONFIG:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
 

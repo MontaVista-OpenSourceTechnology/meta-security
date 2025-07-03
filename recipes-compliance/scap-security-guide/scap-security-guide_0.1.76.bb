@@ -15,7 +15,6 @@ SRC_URI = "git://github.com/ComplianceAsCode/content.git;branch=stable;protocol=
 
 DEPENDS = "openscap-native python3-pyyaml-native python3-jinja2-native libxml2-native expat-native coreutils-native"
 
-S = "${UNPACKDIR}/git"
 B = "${S}/build"
 
 inherit cmake pkgconfig python3native python3targetconfig ptest
