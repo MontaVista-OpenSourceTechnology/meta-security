@@ -6,8 +6,9 @@ LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=6db4d77fb8f0cc84d175e7a1211e4c13"
 
 SRC_URI = "${DEBIAN_MIRROR}/main/c/${BPN}/${BPN}_${PV}.orig.tar.gz \
-           file://musl_fix.patch"
-
+           file://musl_fix.patch \
+           file://0001-Fix-building-with-gcc-15.patch \
+"
 SRC_URI[sha256sum] = "75ed2ace81f0fa3e9c3fb64dab0e8857ed59247ea755f5898416feb2c66807b9"
 
 inherit autotools-brokensep
