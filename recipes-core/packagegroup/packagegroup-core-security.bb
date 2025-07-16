@@ -51,13 +51,23 @@ RDEPENDS:packagegroup-security-utils:append:x86-64 = " firejail chipsec ${have_k
 RDEPENDS:packagegroup-security-utils:append:aarch64 = " firejail ${have_krill}"
 RDEPENDS:packagegroup-security-utils:remove:libc-musl = "krill firejail"
 
+ARPWATCH = "arpwatch"
+ARPWATCH:riscv32 = ""
+ARPWATCH:riscv64 = ""
+ARPWATCH:qemuriscv64 = ""
+CLAMAV = "clamav clamav-daemon clamav-freshclam"
+CLAMAV:riscv32 = ""
+CLAMAV:riscv64 = ""
+CLAMAV:qemuriscv64 = ""
+
 SUMMARY:packagegroup-security-scanners = "Security scanners"
 RDEPENDS:packagegroup-security-scanners = "\
-    ${@bb.utils.contains_any("TUNE_FEATURES", "riscv32 riscv64", "", " arpwatch",d)} \
+    ${ARPWATCH} \
     chkrootkit \
     isic \
-    ${@bb.utils.contains_any("TUNE_FEATURES", "riscv32 riscv64", "", " clamav clamav-daemon clamav-freshclam",d)} \
+    ${CLAMAV} \
     "
+
 RDEPENDS:packagegroup-security-scanners:remove:libc-musl = "clamav clamav-daemon clamav-freshclam"
 RDEPENDS:packagegroup-security-scanners:remove:libc-musl = "arpwatch"
 
