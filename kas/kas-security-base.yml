@@ -60,6 +60,10 @@ local_conf_header:
     HALT,${SSTATE_DIR},100M,1K \
     HALT,/tmp,10M,1K"
 
+  dlsstate: |
+    DL_DIR = "/home/gitlab-runner/build/downloads"
+    SSTATE_DIR = "/home/gitlab-runner/build/sstate-cache"
+
 bblayers_conf_header:
   base: |
     BBPATH = "${TOPDIR}"
