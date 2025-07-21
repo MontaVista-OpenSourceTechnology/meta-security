@@ -36,8 +36,8 @@ local_conf_header:
     INHERIT += "buildstats buildstats-summary buildhistory"
     INHERIT += "report-error"
     IMAGE_CLASSES += "testimage"
-    BB_NUMBER_THREADS="24"
-    BB_NUMBER_PARSE_THREADS="12"
+    BB_NUMBER_THREADS = "24"
+    BB_NUMBER_PARSE_THREADS = "12"
     BB_TASK_NICE_LEVEL = '5'
     BB_TASK_NICE_LEVEL_task-testimage = '0'
     BB_TASK_IONICE_LEVEL = '2.7'
