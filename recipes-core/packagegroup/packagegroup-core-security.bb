@@ -91,6 +91,7 @@ RDEPENDS:packagegroup-security-ids:remove:powerpc64 = "suricata"
 RDEPENDS:packagegroup-security-ids:remove:riscv32 = "suricata"
 RDEPENDS:packagegroup-security-ids:remove:riscv64 = "suricata"
 RDEPENDS:packagegroup-security-ids:remove:libc-musl = "ossec-hids"
+RDEPENDS:packagegroup-security-ids:remove:libc-musl = "aide"
 
 SUMMARY:packagegroup-security-mac = "Security Mandatory Access Control systems"
 RDEPENDS:packagegroup-security-mac = " \
