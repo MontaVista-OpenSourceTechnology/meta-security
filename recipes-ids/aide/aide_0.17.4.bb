@@ -6,7 +6,9 @@ LICENSE = "GPL-2.0-only"
 DEPENDS = "bison-native libpcre"
 
 SRC_URI = "https://github.com/aide/aide/releases/download/v${PV}/${BPN}-${PV}.tar.gz \
-           file://aide.conf"
+           file://aide.conf \
+           file://CVE-2025-54389.patch \
+           "
 
 SRC_URI[sha256sum] = "c81505246f3ffc2e76036d43a77212ae82895b5881d9b9e25c1361b1a9b7a846"
 
