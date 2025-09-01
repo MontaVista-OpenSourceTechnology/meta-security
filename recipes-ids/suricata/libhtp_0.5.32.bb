@@ -13,3 +13,8 @@ CFLAGS += "-D_DEFAULT_SOURCE"
 S = "${WORKDIR}/suricata-${VER}/${BPN}"
 
 RDEPENDS_${PN} += "zlib"
+
+PR .= ".1"
+
+SRC_URI += "file://CVE-2025-53537.patch \
+"
