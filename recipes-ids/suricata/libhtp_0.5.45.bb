@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=596ab7963a1a0e5198e
 
 SRC_URI = "git://github.com/OISF/libhtp.git;protocol=https;branch=0.5.x \
            file://CVE-2024-45797.patch \
+           file://CVE-2025-53537-001.patch \
+           file://CVE-2025-53537-002.patch \
           "
 SRCREV = "8bdfe7b9d04e5e948c8fbaa7472e14d884cc00af"
 
