@@ -42,7 +42,6 @@ RDEPENDS:packagegroup-security-utils = "\
     sshguard \
     ${@bb.utils.contains("DISTRO_FEATURES", "seccomp ", "libseccomp", "",d)} \
     ${@bb.utils.contains("DISTRO_FEATURES", "pam", "google-authenticator-libpam", "",d)} \
-    ${@bb.utils.contains("DISTRO_FEATURES", "pax", "pax-utils packctl", "",d)} \
     "
 
 have_krill =  "${@bb.utils.contains("DISTRO_FEATURES", "pam", "krill", "",d)}"
