@@ -25,6 +25,8 @@ SRC_URI[sha256sum] = "56521c52a9033779154432d0ae47ad7198914785265e1f570cee21ab24
 
 inherit autotools-brokensep ptest multilib_header
 
+CFLAGS += "-std=gnu17"
+
 do_install:append() {
     oe_multilib_header mutils/mhash_config.h
 }
