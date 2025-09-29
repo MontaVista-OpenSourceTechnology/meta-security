@@ -46,8 +46,8 @@ RDEPENDS:packagegroup-security-utils = "\
     "
 
 have_krill =  "${@bb.utils.contains("DISTRO_FEATURES", "pam", "krill", "",d)}"
-RDEPENDS:packagegroup-security-utils:append:x86 = " chipsec ${have_krill}"
-RDEPENDS:packagegroup-security-utils:append:x86-64 = " firejail chipsec ${have_krill}"
+RDEPENDS:packagegroup-security-utils:append:x86 = " ${have_krill}"
+RDEPENDS:packagegroup-security-utils:append:x86-64 = " firejail ${have_krill}"
 RDEPENDS:packagegroup-security-utils:append:aarch64 = " firejail ${have_krill}"
 RDEPENDS:packagegroup-security-utils:remove:libc-musl = "krill firejail"
 

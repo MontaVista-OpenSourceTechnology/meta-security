@@ -34,3 +34,5 @@ FILES:${PN} += "${exec_prefix}"
 
 RDEPENDS:${PN} = "python3 python3-modules"
 INSANE_SKIP:${PN} = "already-stripped"
+
+SKIP_RECIPE[chipsec] ?= "Waiting for upstream support of the kernel 6.16"
