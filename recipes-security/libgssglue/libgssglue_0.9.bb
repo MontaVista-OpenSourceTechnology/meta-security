@@ -5,7 +5,7 @@ mechanisms itself; instead it calls gssapi routines in other libraries, \
 depending on the mechanism. \
 "
 
-HOMEPAGE = "http://www.citi.umich.edu/projects/nfsv4/linux/"
+HOMEPAGE = "https://gitlab.com/gsasl/libgssglue"
 SECTION = "libs"
 
 LICENSE = "BSD-3-Clause | HPND"
