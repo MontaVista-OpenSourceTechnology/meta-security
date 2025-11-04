@@ -5,7 +5,7 @@ require suricata.inc
 LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=c70d8d3310941dcdfcd1e02800a1f548"
 
 SRC_URI = "http://www.openinfosecfoundation.org/download/suricata-${PV}.tar.gz"
-SRC_URI[sha256sum] = "7bcd1313118366451465dc3f8385a3f6aadd084ffe44dd257dda8105863bb769"
+SRC_URI[sha256sum] = "da5a591c749fed2bd986fc3b3cac25d9cfd3b453f57becf14610746999d3c5dd"
 
 DEPENDS = "lz4 libhtp"
 
@@ -15,29 +15,7 @@ SRC_URI += " \
     file://suricata.yaml \
     file://suricata.service \
     file://run-ptest \
-    file://fixup.patch \
-    file://CVE-2024-45795.patch \
-    file://CVE-2024-45796.patch \
-    file://CVE-2024-55605.patch \
-    file://CVE-2025-29916-01.patch \
-    file://CVE-2025-29916-02.patch \
-    file://CVE-2025-29916-03.patch \
-    file://CVE-2025-29917.patch \
-    file://CVE-2025-29918.patch \
-    file://CVE-2024-32663-001.patch \
-    file://CVE-2024-32663-002.patch \
-    file://CVE-2024-32664.patch \
-    file://CVE-2024-32867-001.patch \
-    file://CVE-2024-32867-002.patch \
-    file://CVE-2024-32867-003.patch \
-    file://CVE-2024-32867-004.patch \
-    file://CVE-2024-55627-001.patch \
-    file://CVE-2024-55627-002.patch \
-    file://CVE-2024-55627-003.patch \
-    file://CVE-2024-55628-001.patch \
-    file://CVE-2024-55628-002.patch \
-    file://CVE-2024-55628-003.patch \
-    file://CVE-2024-55628-004.patch \
+    file://0001-Skip-pkg-Makefile-from-using-its-own-rust-steps.patch \
     "
 
 inherit autotools pkgconfig python3native systemd ptest cargo cargo-update-recipe-crates
