@@ -5,7 +5,7 @@ require suricata.inc
 LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=c70d8d3310941dcdfcd1e02800a1f548"
 
 SRC_URI = "http://www.openinfosecfoundation.org/download/suricata-${PV}.tar.gz"
-SRC_URI[sha256sum] = "7bcd1313118366451465dc3f8385a3f6aadd084ffe44dd257dda8105863bb769"
+SRC_URI[sha256sum] = "da5a591c749fed2bd986fc3b3cac25d9cfd3b453f57becf14610746999d3c5dd"
 
 DEPENDS = "lz4 libhtp"
 
@@ -15,12 +15,7 @@ SRC_URI += " \
     file://suricata.yaml \
     file://suricata.service \
     file://run-ptest \
-    file://fixup.patch \
-    file://CVE-2024-37151.patch \
-    file://CVE-2024-38534.patch \
-    file://CVE-2024-38535_pre.patch \
-    file://CVE-2024-38535.patch \
-    file://CVE-2024-38536.patch \
+    file://0001-Skip-pkg-Makefile-from-using-its-own-rust-steps.patch \
     "
 
 inherit autotools pkgconfig python3native systemd ptest cargo cargo-update-recipe-crates
