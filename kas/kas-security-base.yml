@@ -11,11 +11,22 @@ repos:
       meta-integrity:
       meta-hardening:
 
-  poky:
-    url: https://git.yoctoproject.org/git/poky
+  bitbake:
+    url: https://git.openembedded.org/bitbake
+    refspec: master
+    layers:
+      .: disabled
+
+  openembedded-core:
+    url: https://git.openembedded.org/openembedded-core
     refspec: master
     layers:
       meta:
+
+  poky:
+    url: https://git.yoctoproject.org/git/meta-yocto
+    refspec: master
+    layers:
       meta-poky:
       meta-yocto-bsp:
 
