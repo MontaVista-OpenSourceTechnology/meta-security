@@ -1,7 +1,7 @@
 # Copyright (C) 2017  - 2023 Armin Kuster  <akuster808@gmail.com>
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-SUMARRY = "NIST Certified SCAP 1.2 toolkit"
+SUMMARY = "NIST Certified SCAP 1.2 toolkit"
 HOME_URL = "https://www.open-scap.org/tools/openscap-base/"
 LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
 LICENSE = "LGPL-2.1-only"
@@ -66,5 +66,5 @@ FILES:${PN} += "${PYTHON_SITEPACKAGES_DIR}"
 
 
 RDEPENDS:${PN} = "libxml2 python3-core libgcc bash"
-RDEPENDS:${PN}-class-target = "libxml2 python3-core libgcc bash os-release"
+RDEPENDS:${PN}:class-target = "libxml2 python3-core libgcc bash os-release"
 BBCLASSEXTEND = "native"
