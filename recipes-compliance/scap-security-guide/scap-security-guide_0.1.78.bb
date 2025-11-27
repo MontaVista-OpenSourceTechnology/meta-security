@@ -11,6 +11,7 @@ SRC_URI = "git://github.com/ComplianceAsCode/content.git;nobranch=1;protocol=htt
            file://run_eval.sh \
            "
 
+UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)$"
 
 DEPENDS = "openscap-native python3-pyyaml-native python3-jinja2-native libxml2-native expat-native coreutils-native"
 
