@@ -13,7 +13,7 @@ DEPENDS += "libldb dbus libtalloc libpcre glib-2.0 popt e2fsprogs libtevent"
 DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'nss', '', \
                bb.utils.contains('PACKAGECONFIG', 'crypto', '', 'nss', d), d)}"
 
-PR .= ".2"
+PR .= ".3"
 SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz \
            file://sssd.conf \
            file://volatiles.99_sssd \
@@ -23,6 +23,7 @@ SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz \
            file://CVE-2022-4254-1.patch \
            file://CVE-2022-4254-2.patch \
            file://CVE-2023-3758.patch \
+           file://CVE-2025-11561.patch \
            "
 
 SRC_URI[md5sum] = "757bbb6f15409d8d075f4f06cb678d50"
