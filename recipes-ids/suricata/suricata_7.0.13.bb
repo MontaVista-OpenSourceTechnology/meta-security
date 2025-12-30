@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=c70d8d3310941dcdfcd
 SRC_URI = "http://www.openinfosecfoundation.org/download/suricata-${PV}.tar.gz"
 SRC_URI[sha256sum] = "bbc94cf0a297f4560c64569ed72867c799287defdaf6e6572ce769f48dd2559b"
 
-DEPENDS = "lz4 libhtp"
+DEPENDS = "jansson lz4 libhtp"
 
 SRC_URI += " \
     file://volatiles.03_suricata \
@@ -27,6 +27,7 @@ EXTRA_OECONF += " --disable-debug \
     --enable-non-bundled-htp \
     --disable-suricata-update \
     --with-libhtp-includes=${STAGING_INCDIR} --with-libhtp-libraries=${STAGING_LIBDIR} \
+    --with-libjansson-includes=${STAGING_INCDIR} --with-libjansson-libraries=${STAGING_LIBDIR} \
     "
 
 CARGO_SRC_DIR = "rust"
@@ -37,7 +38,7 @@ CARGO_BUILD_FLAGS:append = " --offline"
 B = "${S}"
 
 # nfnetlink has a dependancy to meta-networking
-PACKAGECONFIG ??= "jansson file pcre2 yaml python pcap cap-ng net"
+PACKAGECONFIG ??= "file pcre2 yaml python pcap cap-ng net"
 PACKAGECONFIG:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'unittests', '', d)}"
 
 PACKAGECONFIG[pcre2] = "--with-libpcre2-includes=${STAGING_INCDIR} --with-libpcre2-libraries=${STAGING_LIBDIR}, ,libpcre2 ,"
@@ -48,7 +49,6 @@ PACKAGECONFIG[net] = "--with-libnet-includes=${STAGING_INCDIR} --with-libnet-lib
 PACKAGECONFIG[nfnetlink] = "--with-libnfnetlink-includes=${STAGING_INCDIR} --with-libnfnetlink-libraries=${STAGING_LIBDIR}, ,libnfnetlink ,"
 PACKAGECONFIG[nfq] = "--enable-nfqueue, --disable-nfqueue,libnetfilter-queue,"
 
-PACKAGECONFIG[jansson] = "--with-libjansson-includes=${STAGING_INCDIR} --with-libjansson-libraries=${STAGING_LIBDIR},,jansson, jansson"
 PACKAGECONFIG[file] = ",,file, file"
 PACKAGECONFIG[python] = "--enable-python, --disable-python, python3, python3-core"
 PACKAGECONFIG[unittests] = "--enable-unittests, --disable-unittests,"
@@ -137,5 +137,7 @@ SYSTEMD_SERVICE:${PN} = "${BPN}.service"
 PACKAGES =+ "${PN}-python"
 FILES:${PN} += "${systemd_unitdir} ${sysconfdir}/tmpfiles.d"
 FILES:${PN}-python = "${bindir}/suricatasc ${PYTHON_SITEPACKAGES_DIR}"
+
+RDEPENDS:${PN} += "jansson"
 
 CONFFILES:${PN} = "${sysconfdir}/suricata/suricata.yaml"
