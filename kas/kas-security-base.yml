@@ -1,5 +1,5 @@
 header:
-  version: 9
+  version: 19
 
 distro: poky
 
@@ -12,27 +12,27 @@ repos:
       meta-hardening:
 
   bitbake:
-    url: https://git.openembedded.org/bitbake
-    refspec: master
+    url: "https://git.openembedded.org/bitbake"
+    branch: master
     layers:
       .: disabled
 
   openembedded-core:
-    url: https://git.openembedded.org/openembedded-core
-    refspec: master
+    url: "https://git.openembedded.org/openembedded-core"
+    branch: master
     layers:
       meta:
 
   poky:
-    url: https://git.yoctoproject.org/git/meta-yocto
-    refspec: master
+    url: "https://git.yoctoproject.org/git/meta-yocto"
+    branch: master
     layers:
       meta-poky:
       meta-yocto-bsp:
 
   meta-openembedded:
-    url: http://git.openembedded.org/meta-openembedded
-    refspec: master
+    url: "http://git.openembedded.org/meta-openembedded"
+    branch: master
     layers:
       meta-oe:
       meta-perl:
