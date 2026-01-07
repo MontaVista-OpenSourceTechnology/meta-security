@@ -13,26 +13,26 @@ repos:
 
   bitbake:
     url: "https://git.openembedded.org/bitbake"
-    branch: master
+    branch: "2.16"
     layers:
       .: disabled
 
   openembedded-core:
     url: "https://git.openembedded.org/openembedded-core"
-    branch: master
+    branch: whinlatter
     layers:
       meta:
 
   poky:
     url: "https://git.yoctoproject.org/git/meta-yocto"
-    branch: master
+    branch: whinlatter
     layers:
       meta-poky:
       meta-yocto-bsp:
 
   meta-openembedded:
     url: "http://git.openembedded.org/meta-openembedded"
-    branch: master
+    branch: whinlatter
     layers:
       meta-oe:
       meta-perl:
