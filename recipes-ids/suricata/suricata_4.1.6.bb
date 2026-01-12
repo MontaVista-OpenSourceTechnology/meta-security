@@ -16,9 +16,10 @@ SRC_URI += " \
     file://CVE-2025-29917.patch \
     file://CVE-2025-29918.patch \
     file://CVE-2025-64344.patch \
+    file://CVE-2025-64332.patch \
     "
 
-PR .= ".4"
+PR .= ".5"
 inherit autotools-brokensep pkgconfig python3-dir systemd ptest
 
 CFLAGS += "-D_DEFAULT_SOURCE"
