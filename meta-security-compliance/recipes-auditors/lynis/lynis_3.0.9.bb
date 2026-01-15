@@ -6,9 +6,11 @@ HOMEDIR = "https://cisofy.com/"
 LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3edd6782854304fd11da4975ab9799c1"
 
-SRC_URI = "https://cisofy.com/files/${BPN}-${PV}.tar.gz"
+SRC_URI = "https://downloads.cisofy.com/lynis/archive/${BPN}-${PV}.tar.gz"
 
-SRC_URI[sha256sum] = "3cc165f9007ba41de6d0b693a1167dbaf0179085f9506dcba64b4b8e37e1bda2"
+SRC_URI[sha256sum] = "f394df7d20391fb76e975ae88f3eba1da05ac9c4945e2c7f709326e185e17025"
+
+UPSTREAM_CHECK = "https://downloads.cisofy.com/lynis"
 
 S = "${WORKDIR}/${BPN}"
 
