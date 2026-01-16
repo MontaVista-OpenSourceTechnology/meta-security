@@ -28,7 +28,7 @@ SRC_URI = "https://github.com/SSSD/sssd/releases/download/${PV}/${BP}.tar.gz \
            file://CVE-2023-3758.patch \
            file://CVE-2025-11561.patch \
            "
-SRC_URI[sha256sum] = "bf955cc26b6d215bbb9083eadb613f78d7b727fb023f39987aec37680ae40ae3"
+SRC_URI[sha256sum] = "6b5284a4d72b67c0897699794360d79e0f67461957e20273c2649f025e76c248"
 
 UPSTREAM_CHECK_URI = "https://github.com/SSSD/${BPN}/releases"
 
