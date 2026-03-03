@@ -18,7 +18,7 @@ do_compile:prepend() {
 }
 
 do_install() {
-    oe_runmake DESTDIR=${D} PREFIX=/usr install
+    oe_runmake DESTDIR=${D} PREFIX=${prefix} install
 }
 
 RRECOMMENDS:${PN} += "\
