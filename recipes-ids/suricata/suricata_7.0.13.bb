@@ -16,6 +16,8 @@ SRC_URI += " \
     file://suricata.service \
     file://run-ptest \
     file://0001-Skip-pkg-Makefile-from-using-its-own-rust-steps.patch \
+    file://CVE-2026-22262-01.patch \
+    file://CVE-2026-22262-02.patch \
     "
 
 inherit autotools pkgconfig python3native systemd ptest cargo cargo-update-recipe-crates
