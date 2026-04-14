@@ -2,7 +2,7 @@
 # Released under the MIT license (see COPYING.MIT for the terms)
 
 SUMARRY = "SCAP content for various platforms, upstream version"
-HOME_URL = "https://www.open-scap.org/security-policies/scap-security-guide/"
+HOMEPAGE = "https://www.open-scap.org/security-policies/scap-security-guide/"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=9bfa86579213cb4c6adaffface6b2820"
 LICENSE = "BSD-3-Clause"
 
