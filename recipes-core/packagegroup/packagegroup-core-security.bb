@@ -39,7 +39,6 @@ RDEPENDS:packagegroup-security-utils = "\
     glome \
     keyutils \
     libgssglue \
-    libmhash \
     nmap \
     pinentry \
     softhsm \
