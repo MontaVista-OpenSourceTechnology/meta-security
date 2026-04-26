@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING.txt;md5=2c0b5770a62017a3121c69bb9f680b0c \
                     file://COPYING/COPYING.curl;md5=be5d9e1419c4363f4b32037a2d3b7ffa \
                     "
 
-DEPENDS = "glibc llvm libtool db openssl zlib curl libxml2 bison pcre2 json-c libcheck rust-native cargo-native libmspack"
+DEPENDS = "glibc llvm libtool db openssl zlib curl libxml2 bison pcre2 json-c libcheck rust-native cargo-native"
 
 SRC_URI = "git://github.com/Cisco-Talos/clamav;branch=rel/1.4;protocol=https \
            file://clamd.conf \
