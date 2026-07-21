@@ -19,3 +19,6 @@ PACKAGECONGIG ??= "efivar"
 PACKAGECONFIG[efivar] = "--with-efivar,--without-efivar,efivar"
 
 BBCLASSEXTEND = "native nativesdk"
+
+CVE_STATUS[CVE-2017-7524] = "fixed-version: Fixed since version 3.0.0"
+CVE_STATUS[CVE-2024-29039] = "fixed-version: Fixed since version 5.7"
