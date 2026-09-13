@@ -10,7 +10,7 @@ SRC_URI = "https://github.com/aide/aide/releases/download/v${PV}/${BPN}-${PV}.ta
            file://aide.conf \
 "
 
-SRC_URI[sha256sum] = "6513170bb5b8c22802dd1b72f02d8aa9f432aef2b4470522db03e755212a3f47"
+SRC_URI[sha256sum] = "47ab7c696f0745911479a41f90d7ad99d26536e186d66c4aad093bc72d20ff5f"
 
 UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
 
