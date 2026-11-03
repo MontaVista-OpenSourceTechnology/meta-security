@@ -7,7 +7,9 @@ SECTION = "tpm"
 
 DEPENDS = "tpm2-tss openssl curl autoconf-archive-native"
 
-SRC_URI = "https://github.com/tpm2-software/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.gz"
+SRC_URI = "https://github.com/tpm2-software/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.gz \
+           file://0001-lib-object.h-include-openssl-err.h.patch \
+           "
 
 SRC_URI[sha256sum] = "1cb73185cae814b4e15c7c2d0b22642d640faf48775f4156a1fd92edf84bef73"
 
