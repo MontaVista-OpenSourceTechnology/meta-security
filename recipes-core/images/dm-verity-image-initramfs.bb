@@ -40,4 +40,4 @@ deploy_verity_hash() {
         ${STAGING_VERITY_DIR}/${DM_VERITY_IMAGE}.${DM_VERITY_IMAGE_TYPE}.verity.env \
         ${IMAGE_ROOTFS}${datadir}/misc/dm-verity.env
 }
-IMAGE_PREPROCESS_COMMAND += "deploy_verity_hash;"
+IMAGE_PREPROCESS_COMMAND += "deploy_verity_hash "
