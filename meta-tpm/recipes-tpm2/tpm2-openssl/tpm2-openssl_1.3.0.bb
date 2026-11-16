@@ -7,6 +7,7 @@ DEPENDS = "autoconf-archive-native tpm2-tss openssl"
 
 SRC_URI = "https://github.com/tpm2-software/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.gz \
            file://0001-Fix-ASN1_OCTET_STRING-and-X509_NAME-access-for-OpenS.patch \
+           file://0002-pkey-fix-compilation-with-OpenSSL-4.1.patch \
            "
 
 SRC_URI[sha256sum] = "9a9aca55d4265ec501bcf9c56d21d6ca18dba902553f21c888fe725b42ea9964"
